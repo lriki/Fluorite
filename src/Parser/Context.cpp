@@ -96,9 +96,9 @@ ResultState Context::LookupPreprocessedIncludeFile(
 	{
 		// ファイル内容を一度全て読み込む
 		// TODO: 文字コード
-		FileStream file(includeFilePath, FileOpenMode::Read);
-		ByteBuffer buffer(file.GetLength(), false);
-		file.Read(buffer.GetData(), buffer.GetSize());
+		FileStreamPtr file = FileStream::Create(includeFilePath, FileOpenMode::Read);
+		ByteBuffer buffer(file->GetLength(), false);
+		file->Read(buffer.GetData(), buffer.GetSize());
 
 		auto codeFile = RefPtr<IncludeFile>::MakeRef();
 		codeFile->Initialize(includeFilePath);

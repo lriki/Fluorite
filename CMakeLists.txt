@@ -2,13 +2,9 @@
 project (Fluorite)
 
 
-
-option(LN_USE_UNICODE_CHAR_SET "Use unicode char set." ON)
-
-
-#------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
 # Files
-#------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
 
 set(LN_SOURCES_src
 	src/Parser/UnitFile.h
@@ -53,28 +49,23 @@ set(LN_INCLUDE_DIRECTORIES
 	${CMAKE_SOURCE_DIR}/external/Lumino.Core/include
 )
 
-#------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
 # Options
-#------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
 include(external/Lumino.Core/cmake/LNCommon.cmake NO_POLICY_SCOPE)
 
-#------------------------------------------------------------------------------
-# Output
-#------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# Dependencies
+#-------------------------------------------------------------------------------
+add_subdirectory(external/Lumino.Core)
+link_libraries(LuminoCore_Static)
 
-#------------------------------
-# external deps.
-#add_subdirectory(external/Lumino.Core)
-#link_libraries(LuminoCore_Static)
+#-------------------------------------------------------------------------------
+# Outputs
+#-------------------------------------------------------------------------------
+ln_add_library(${PROJECT_NAME})
 
-#------------------------------
-# 
-add_executable(${PROJECT_NAME} ${LN_SOURCES})
-set_target_properties(${PROJECT_NAME} PROPERTIES OUTPUT_NAME ${PROJECT_NAME}${LN_OUTPUT_POSTFIX})
-set_target_properties(${PROJECT_NAME} PROPERTIES DEBUG_POSTFIX "d")
-set_target_properties(${PROJECT_NAME} PROPERTIES INCLUDE_DIRECTORIES "${LN_INCLUDE_DIRECTORIES}")
-add_custom_command(
-	TARGET ${PROJECT_NAME}
-	POST_BUILD
-	COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:${PROJECT_NAME}> "${CMAKE_SOURCE_DIR}/lib")
+# test
+add_subdirectory(test)
+
 
