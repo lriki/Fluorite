@@ -46,7 +46,7 @@ set(LN_SOURCES
 )
 
 set(LN_INCLUDE_DIRECTORIES
-	${CMAKE_SOURCE_DIR}/external/Lumino.Core/include
+	${PROJECT_SOURCE_DIR}/external/Lumino.Core/include
 )
 
 #-------------------------------------------------------------------------------
