@@ -105,6 +105,8 @@ public:
 	void ClearItems() { m_items.Clear(); }
 	const Array<DiagnosticsItem>* GetItems() { return &m_items; }
 
+	bool HasError() const { return !m_items.IsEmpty(); }
+
 private:
 	PathName	m_filePath;
 	int			m_currentLineNumber;

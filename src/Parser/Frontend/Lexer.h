@@ -58,6 +58,17 @@ public:
 
 	int ReadMBSSequence(const Range& buffer, ReadResult* outResult);
 
+	
+	//template<class TLexer>
+	//static TokenListPtr TokenizeSimple(const StringRefA& str)
+	//{
+	//	TLexer lex;
+	//	DiagnosticsItemSet diag;
+	//	TokenListPtr tokens = lex.Tokenize(str.GetBegin(), &diag);	// TODO: ”ÍˆÍ
+	//	LN_THROW(!diag.HasError(), InvalidFormatException);
+	//	return tokens;
+	//}
+
 protected:
 	virtual void OnStart();
 

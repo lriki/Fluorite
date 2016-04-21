@@ -60,7 +60,7 @@ TokenListPtr Lexer::Tokenize(const ByteBuffer& buffer, DiagnosticsItemSet* diag)
 	m_currentColumn = 0;
 
 	TokenListPtr list(LN_NEW TokenList(), false);
-	m_tokenBuffer = RefPtr<TokenBuffer>::MakeRef();
+	m_tokenBuffer = RefPtr<TokenBuffer>::MakeRef();	// TODO: TokenList に持たせた方が使い勝手いい
 
 	// 最悪のパターンで容量確保
 	list->Reserve(buffer.GetSize());
