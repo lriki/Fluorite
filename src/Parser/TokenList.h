@@ -21,6 +21,16 @@ public:
 	TokenList() {}
 	~TokenList() {}
 
+	String ToString(int begin, int end) const
+	{
+		StringBuilder sb;
+		for (int i = begin; i < end; ++i)
+		{
+			sb.Append(GetAt(i).GetBegin(), GetAt(i).GetLength());
+		}
+		return sb.ToString();
+	}
+
 //	void Reserve(size_t size) { m_list.Reserve(size); }
 //	void Resize(size_t size) { m_list.Resize(size); }
 //	void Add(const Token& token) { m_list.Add(token); }

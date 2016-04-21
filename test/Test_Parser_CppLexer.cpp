@@ -203,3 +203,14 @@ TEST_F(Test_Parser_CppLexer, Illigal)
 
 
 }
+
+
+//-----------------------------------------------------------------------------
+TEST_F(Test_Parser_CppLexer, Issues)
+{
+	//DiagnosticsItemSet diag;
+	//CppLexer lex;
+	//auto tokens = lex.Tokenize("#line 1 \"C:\\MirrorWater_low.tmp\"\r\n", &diag);
+	//ASSERT_EQ(CommonTokenType::Operator, tokens->GetAt(0).GetCommonType());
+
+}
