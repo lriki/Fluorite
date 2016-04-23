@@ -31,6 +31,19 @@ public:
 		return sb.ToString();
 	}
 
+	String ToStringValidCode() const
+	{
+		StringBuilder sb;
+		for (int i = 0; i < GetCount(); ++i)
+		{
+			if (GetAt(i).IsValid())
+			{
+				sb.Append(GetAt(i).GetBegin(), GetAt(i).GetLength());
+			}
+		}
+		return sb.ToString();
+	}
+
 //	void Reserve(size_t size) { m_list.Reserve(size); }
 //	void Resize(size_t size) { m_list.Resize(size); }
 //	void Add(const Token& token) { m_list.Add(token); }
