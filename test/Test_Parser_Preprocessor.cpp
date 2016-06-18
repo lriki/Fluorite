@@ -584,8 +584,9 @@ TEST_F(Test_Parser_Preprocessor, Unit_pragma_once)
 			"1\n"
 			"#endif";
 		Preprocess(code);
-		ASSERT_EQ(true, m_tokens->GetAt(10).IsValid());
-		// 1 ‚Í–³Œø—Ìˆæ
+		ASSERT_EQ(true, m_tokens->GetAt(10).IsValid());	// 1 ‚Í—LŒø—Ìˆæ
+		ASSERT_EQ(true, m_tokens->GetAt(29).IsValid());	// 1 ‚Í—LŒø—Ìˆæ
+		
 	}
 }
 

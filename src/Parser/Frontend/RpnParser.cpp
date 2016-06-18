@@ -766,8 +766,8 @@ bool RpnOperand::IsFuzzyTrue() const
 //-----------------------------------------------------------------------------
 ResultState RpnEvaluator::TryEval(const RpnTokenList* tokenList, DiagnosticsItemSet* diag, RpnOperand* outValue)
 {
-	LN_CHECK_ARGS_RETURNV(tokenList != nullptr, ResultState::Error);
-	LN_CHECK_ARGS_RETURNV(diag != nullptr, ResultState::Error);
+	assert(tokenList != nullptr);
+	assert(diag != nullptr);
 	m_diag = diag;
 
 	Stack<RpnOperand> operandStack;

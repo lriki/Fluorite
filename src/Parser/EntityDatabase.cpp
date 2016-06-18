@@ -165,7 +165,7 @@ Reference* EntityDatabase::CreateReference(Entity* ownerEntity, ReferenceKindFla
 //-----------------------------------------------------------------------------
 void ReferenceTracker::Initialize(EntityDatabase* ownerDatabase)
 {
-	LN_CHECK_ARGS(ownerDatabase != nullptr);
+	assert(ownerDatabase != nullptr);
 	m_ownerDatabase = ownerDatabase;
 }
 

@@ -1,6 +1,6 @@
 #pragma once
 #ifdef AAA
-#define BBB
+#undef BBB
 #else
-#define CCC
+#define BBB
 #endif

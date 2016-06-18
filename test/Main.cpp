@@ -42,7 +42,7 @@ int main(int argc, char **argv) {
 #if 1	// 部分的にテストを実行したりする
 	char* testArgs[] = {
 		argv[0],
-		"--gtest_filter=Test_Parser_CppLexer.*"
+		"--gtest_filter=Test_Parser_Preprocessor.*"
 	};
 	argc = sizeof(testArgs) / sizeof(char*);
 	testing::InitGoogleTest(&argc, (char**)testArgs/*&argc, argv*/);

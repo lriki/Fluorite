@@ -86,7 +86,7 @@ public:
 
 	MacroMap* Get()
 	{
-		if (m_core.GetObjectPtr() == &m_sharedEmpty || m_core->GetRefCount() != 1)
+		if (m_core.Get() == &m_sharedEmpty || m_core->GetReferenceCount() != 1)
 		{
 			auto newCore = RefPtr<MacroMap>::MakeRef();
 			if (!m_core.IsNull())
@@ -151,9 +151,21 @@ class HeaderFileManager
 public:
 
 };
+
+
+/**
+	@brief	CompileUnit 1つ分のプリプロセスの状態管理を行う。
+*/
+class PreprocessContext
+{
+
+};
+
 	
 /**
-	@brief
+	@brief	ファイル1つ分のプリプロセスを行う。
+	
+	.cpp や .h ひとつ分。ヘッダファイルも1つ分。
 */
 class Preprocessor
 {

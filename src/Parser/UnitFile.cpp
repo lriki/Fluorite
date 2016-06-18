@@ -15,7 +15,7 @@ namespace parser
 //-----------------------------------------------------------------------------
 void UnitFile::Initialize(const TokenPathName& fileAbsPath)
 {
-	LN_CHECK_ARGS_RETURN(fileAbsPath.IsAbsolute());
+	assert(fileAbsPath.IsAbsolute());
 	m_fileAbsPath = fileAbsPath;
 	//m_macroMap = RefPtr<MacroMap>::MakeRef();
 }

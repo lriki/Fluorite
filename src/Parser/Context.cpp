@@ -34,7 +34,8 @@ ResultState Context::LookupPreprocessedIncludeFile(
 	DiagnosticsItemSet* parentDiag,
 	IncludeFile** outFile)
 {
-	LN_CHECK_ARGS_RETURNV(additionalIncludePaths != nullptr, ResultState::Error);
+	assert(additionalIncludePaths != nullptr);
+	//LN_CHECK_ARGS_RETURNV(additionalIncludePaths != nullptr, ResultState::Error);
 	//LN_CHECK_ARGS_RETURNV(macroMap != nullptr, ResultState::Error);
 
 	//------------------------------------------------------------
@@ -116,7 +117,7 @@ ResultState Context::LookupPreprocessedIncludeFile(
 		LN_RESULT_CALL(preprocessor.BuildPreprocessedTokenList(this, rootCompileUnitFile, tokens, codeFile, additionalIncludePaths, parentMacroMap, referenceTracker, parentDiag));
 		//codeFile->GetMacroMap()->SetFreeze(true);	// Šm’èB‚ ‚Æ‚Í•Ï‰»‚µ‚È‚¢
 
-		printf("%d\n", codeFile->GetMacroMapPtr()->GetConst()->IsDefined("BBB"));
+		//printf("%d\n", codeFile->GetMacroMapPtr()->GetConst()->IsDefined("BBB"));
 
 		m_codeFileMap.insert({ key, codeFile });
 		*outFile = codeFile;

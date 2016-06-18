@@ -214,7 +214,7 @@ MacroDefine* MacroMap::Insert(const Token& name, const SourceRange& replacementR
 MacroDefine* MacroMap::Find(const TokenChar* nameBegin, const TokenChar* nameEnd) const
 {
 	if (nameEnd == nullptr) {
-		nameEnd = nameBegin + StringTraits::StrLen(nameBegin);
+		nameEnd = nameBegin + StringTraits::tcslen(nameBegin);
 	}
 
 	MacroDefine* e;
