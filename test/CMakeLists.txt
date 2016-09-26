@@ -3,10 +3,10 @@ set(LN_TEST_SOURCES
 	gtest/src/gtest-all.cc
 	Main.cpp
 	TestConfig.h
-	Test_Parser_CppLexer.cpp
-	Test_Parser_Preprocessor.cpp
-	Test_Parser_RpnEvaluator.cpp
-	Test_Parser_RpnParser.cpp
+	Test_CppLexer.cpp
+	#Test_Parser_Preprocessor.cpp
+	#Test_Parser_RpnEvaluator.cpp
+	#Test_Parser_RpnParser.cpp
 )
 
 include_directories(
@@ -16,8 +16,8 @@ include_directories(
 	"${PROJECT_SOURCE_DIR}/test/gtest"
 	"${PROJECT_SOURCE_DIR}/test/gtest/include"
 	"${PROJECT_SOURCE_DIR}/test/gtest/src"
-	"${PROJECT_SOURCE_DIR}/external/Lumino.Core/include"
+	"${LN_CORE_ROOT_DIR}/include"
 )
 	
-link_libraries(Fluorite_Static)
+link_libraries(Fluorite)
 add_executable(Fluorite_Test ${LN_TEST_SOURCES})
