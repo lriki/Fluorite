@@ -16,7 +16,7 @@ include_directories(
 	"${PROJECT_SOURCE_DIR}/test/gtest"
 	"${PROJECT_SOURCE_DIR}/test/gtest/include"
 	"${PROJECT_SOURCE_DIR}/test/gtest/src"
-	"${LN_CORE_ROOT_DIR}/include"
+	"${CMAKE_SOURCE_DIR}/external/Lumino.Core/include"
 )
 	
 link_libraries(Fluorite)

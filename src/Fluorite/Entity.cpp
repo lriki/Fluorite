@@ -1,6 +1,6 @@
 
 #include "Internal.h"
-#include <Fluorite/Token.h>
+#include <Fluorite/Entity.h>
 
 namespace ln
 {
@@ -8,23 +8,17 @@ namespace fl
 {
 
 //==============================================================================
-// TokenManager
+// Entity
 //==============================================================================
 
 //------------------------------------------------------------------------------
-TokenManager::TokenManager()
+Entity::Entity()
 {
 }
 
 //------------------------------------------------------------------------------
-TokenManager::~TokenManager()
+Entity::~Entity()
 {
-}
-
-//------------------------------------------------------------------------------
-Token* TokenManager::CreateToken()
-{
-	return LN_NEW Token();
 }
 
 } // namespace fl

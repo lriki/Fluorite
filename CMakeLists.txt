@@ -4,48 +4,52 @@ project (Fluorite)
 #-------------------------------------------------------------------------------
 # Options
 #-------------------------------------------------------------------------------
-set(LN_CORE_INCLUDE_DIR "../Lumino.Core/include" CACHE STRING "")
-option(LN_CORE_INCLUDE_DIR "" "")
-
-set(LN_CORE_LIB_PATH "../Lumino.Core/include" CACHE STRING "")
-option(LN_CORE_LIB_PATH "" "")
-
-set(LN_FL_LIB_OUTPUT_DIR "${PROJECT_SOURCE_DIR}/lib" CACHE STRING "")
-option(LN_FL_LIB_OUTPUT_DIR "" "")
-
-set(LN_FL_LIB_POSTFIX "" CACHE STRING "")
-option(LN_FL_LIB_POSTFIX "" "")
 
 #-------------------------------------------------------------------------------
 # Files
 #-------------------------------------------------------------------------------
 
 set(LN_FL_SOURCES
+	include/Fluorite/AnalyzerContext.h
+	include/Fluorite/Entity.h
+	include/Fluorite/EntityDatabase.h
 	include/Fluorite/Token.h
+	include/Fluorite/Reference.h
+	include/Fluorite/SourceFileEntity.h
+	include/Fluorite/Utilities.h
+	src/Fluorite/AnalyzerContext.cpp
+	src/Fluorite/Entity.cpp
+	src/Fluorite/EntityDatabase.cpp
+	src/Fluorite/Internal.h
+	src/Fluorite/Reference.cpp
+	src/Fluorite/SourceFileEntity.cpp
 	src/Fluorite/Token.cpp
 )
+source_group("Fluorite"		FILES ${LN_FL_SOURCES})
 
-set(LN_INCLUDE_DIRECTORIES
-	${PROJECT_SOURCE_DIR}/external/Lumino.Core/include
+set(LN_FL_INCLUDE_DIRECTORIES
+	${PROJECT_SOURCE_DIR}/include
+	${CMAKE_SOURCE_DIR}/external/Lumino.Core/include
 )
 
 #-------------------------------------------------------------------------------
 # Configure
 #-------------------------------------------------------------------------------
-#include(${LN_CORE_ROOT_DIR}/cmake/LNCommon.cmake NO_POLICY_SCOPE)
+include(${CMAKE_SOURCE_DIR}/external/Lumino.Core/cmake/LNCommon.cmake NO_POLICY_SCOPE)
 
 #-------------------------------------------------------------------------------
 # Dependencies
 #-------------------------------------------------------------------------------
-link_libraries(LN_CORE_LIB_PATH)
+link_libraries(LuminoCore_Static)
 
 #-------------------------------------------------------------------------------
 # Outputs
 #-------------------------------------------------------------------------------
 # Fluorite
 add_library(Fluorite STATIC ${LN_FL_SOURCES})
-set_target_properties(Fluorite PROPERTIES ARCHIVE_OUTPUT_DIRECTORY "${LN_FL_LIB_OUTPUT_DIR}")
-set_target_properties(Fluorite PROPERTIES OUTPUT_NAME "Fluorite${LN_FL_LIB_POSTFIX}")
+set_target_properties(Fluorite PROPERTIES OUTPUT_NAME "Fluorite${LN_LIB_POSTFIX}")
+set_target_properties(Fluorite PROPERTIES INCLUDE_DIRECTORIES "${LN_FL_INCLUDE_DIRECTORIES}")
+set_target_properties(Fluorite PROPERTIES ARCHIVE_OUTPUT_DIRECTORY "${LN_LIB_OUTPUT_DIR}")
 
 # test
 add_subdirectory(test)

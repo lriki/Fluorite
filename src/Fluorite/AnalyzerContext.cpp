@@ -1,6 +1,6 @@
 
 #include "Internal.h"
-#include <Fluorite/Token.h>
+#include <Fluorite/AnalyzerContext.h>
 
 namespace ln
 {
@@ -8,23 +8,17 @@ namespace fl
 {
 
 //==============================================================================
-// TokenManager
+// AnalyzerContext
 //==============================================================================
 
 //------------------------------------------------------------------------------
-TokenManager::TokenManager()
+AnalyzerContext::AnalyzerContext()
 {
 }
 
 //------------------------------------------------------------------------------
-TokenManager::~TokenManager()
+AnalyzerContext::~AnalyzerContext()
 {
-}
-
-//------------------------------------------------------------------------------
-Token* TokenManager::CreateToken()
-{
-	return LN_NEW Token();
 }
 
 } // namespace fl
