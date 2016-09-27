@@ -1,4 +1,40 @@
 
+解析
+--------------------
+### 字句解析
+
+### 構文解析 (SyntaxParser)
+AST を作る。
+この時点ではまだ Symbol は作らない。
+
+Roslyn なら CSharp.Syntax.MethodDeclarationSyntax とかが作られる。
+
+### 意味解析 (SemanticAnalyzer)
+ここまできてようやく Symbol を作っていく。
+
+
+
+ユースケース
+--------------------
+### ファイルを登録して解析する
+```
+AnalyzerContext* ac = AnalyzerContext::Create();
+ac->RegisterSourceFile("test.cpp");
+ac->AnalyzeAll();
+```
+
+### ある行を含んでいる関数定義を探す (Symbol から)
+```
+SymbolDatabase* db = ac->GetSymbolDatabase();
+Enumerable<Symbol*> sources = db->GetSourceFileSymbols();
+Symbol* source = sources.First([](Symbol* s){ s->GetName() == "C:\\test.cpp"; });
+Enumerable<Reference*> refs = source.GetReferences();
+Enumerable<Reference*> funcDecls = refs.Where([](Reference* r){ r->GetKind() == ReferenceDecl::FunctionDeclaration; });
+Reference* funcDeclRef  = refs.First([](Reference* r){ r->GetSourceRange().ContainsLineNumber(100); });
+Symbol* func = funcDeclRef->GetSymbol();
+```
+
+
 
 Token
 --------------------
@@ -16,6 +52,18 @@ Token
 Fluorite としては以下のようにしてみる。
 - Token は参照
 - コードの String は実態 (Lex 後、オリジナルのバッファは捨てても良いようにする)
+
+Reference
+--------------------
+ASTNode(Syntax) とは別物。それらだけだと CallBy を表現できない。
+
+
+
+Kind
+--------------------
+複数の言語を同時に解析するとき、似ている種別だから使いまわす、はナシ。
+例えば、C++ の FuncDecl と C# の MethodDecl は別にする。ほかにも FuncPtr とか Delegate とか。
+
 
 
 リソース管理・シリアライズ

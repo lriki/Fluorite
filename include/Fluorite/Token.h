@@ -38,28 +38,28 @@ public:
 	TokenList() {}
 	~TokenList() {}
 
-	String ToString(int begin, int end) const
-	{
-		StringBuilder sb;
-		for (int i = begin; i < end; ++i)
-		{
-			sb.Append(GetAt(i).GetBegin(), GetAt(i).GetLength());
-		}
-		return sb.ToString();
-	}
+	//String ToString(int begin, int end) const
+	//{
+	//	StringBuilder sb;
+	//	for (int i = begin; i < end; ++i)
+	//	{
+	//		sb.Append(GetAt(i).GetBegin(), GetAt(i).GetLength());
+	//	}
+	//	return sb.ToString();
+	//}
 
-	String ToStringValidCode() const
-	{
-		StringBuilder sb;
-		for (int i = 0; i < GetCount(); ++i)
-		{
-			if (GetAt(i).IsValid())
-			{
-				sb.Append(GetAt(i).GetBegin(), GetAt(i).GetLength());
-			}
-		}
-		return sb.ToString();
-	}
+	//String ToStringValidCode() const
+	//{
+	//	StringBuilder sb;
+	//	for (int i = 0; i < GetCount(); ++i)
+	//	{
+	//		if (GetAt(i).IsValid())
+	//		{
+	//			sb.Append(GetAt(i).GetBegin(), GetAt(i).GetLength());
+	//		}
+	//	}
+	//	return sb.ToString();
+	//}
 };
 
 } // namespace fl
