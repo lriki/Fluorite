@@ -9,3 +9,6 @@
 //#include "../src/Parser/Frontend/RPNParser.h"
 //#include "../src/Parser/UnitFile.h"
 using namespace ln;
+
+#include <Fluorite/AnalyzerContext.h>
+using namespace fl;

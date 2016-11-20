@@ -11,25 +11,29 @@ project (Fluorite)
 
 set(LN_FL_SOURCES
 	include/Fluorite/AnalyzerContext.h
+	include/Fluorite/Common.h
+	include/Fluorite/Diagnostics.h
 	include/Fluorite/Entity.h
 	include/Fluorite/EntityDatabase.h
 	include/Fluorite/Token.h
 	include/Fluorite/Reference.h
 	include/Fluorite/TranslationUnit.h
 	include/Fluorite/Utilities.h
+	
 	src/Fluorite/AnalyzerContext.cpp
-	src/Fluorite/CppLexer.cpp
-	src/Fluorite/CppLexer.h
-	src/Fluorite/Entity.cpp
-	src/Fluorite/EntityDatabase.cpp
+#	src/Fluorite/CppLexer.cpp
+#	src/Fluorite/CppLexer.h
+	src/Fluorite/Diagnostics.cpp
+#	src/Fluorite/Entity.cpp
+#	src/Fluorite/EntityDatabase.cpp
 	src/Fluorite/Internal.h
-	src/Fluorite/Lexer.cpp
-	src/Fluorite/Lexer.h
-	src/Fluorite/Preprocessor.cpp
-	src/Fluorite/Preprocessor.h
-	src/Fluorite/Reference.cpp
-	src/Fluorite/TranslationUnit.cpp
-	src/Fluorite/Token.cpp
+#	src/Fluorite/Lexer.cpp
+#	src/Fluorite/Lexer.h
+#	src/Fluorite/Preprocessor.cpp
+#	src/Fluorite/Preprocessor.h
+#	src/Fluorite/Reference.cpp
+#	src/Fluorite/TranslationUnit.cpp
+#	src/Fluorite/Token.cpp
 )
 source_group("Fluorite"		FILES ${LN_FL_SOURCES})
 

@@ -1,5 +1,6 @@
 
-#include "../../Internal.h"
+#include "Internal.h"
+#if 0
 #include "../../DiagnosticsManager.h"
 #include "CppLexer.h"
 
@@ -1089,4 +1090,5 @@ int CppLexer::ReadPPTokens(const Range& buffer, ReadResult* outResult)
 
 } // namespace Parser
 LN_NAMESPACE_END
+#endif
 
