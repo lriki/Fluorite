@@ -1,38 +1,68 @@
-
+﻿
 #pragma once
 #include <Lumino/Base/Collection.h>
+#include "Common.h"
 
-namespace ln
-{
-namespace fl
-{
+namespace fl {
+class InputFile;
+using SourceLocation = uint32_t;
 
-
+/**
+	@brief	
+*/
 class Token
 {
-
-};
-
-class TokenManager
-{
 public:
-	TokenManager();
-	virtual ~TokenManager();
+	Token();
+	Token(const Token& src) = default;
+	Token& operator = (const Token& src) = default;
+	~Token();
 
-	Token* CreateToken();
+	Token(TokenGroup group, SourceLocation locBegin, SourceLocation locEnd);
+	Token(TokenGroup group, SourceLocation locBegin, SourceLocation locEnd, int tokenType);
+
+	TokenGroup GetTokenGroup() const { return m_group; }
+
+	/** トークンの種別。値の意味はプログラム言語ごとに異なる */
+	int GetTokenType() const { return m_tokenType; }
+
+	int GetLength() const { return m_locEnd - m_locBegin; }
+	SourceLocation GetBegin() const { return m_locBegin; }
+	SourceLocation GetEnd() const { return m_locEnd; }
+
+	int GetFirstLineNumber() const { return m_firstLineNumber; }
+	int GetFirstColumn() const { return m_firstColumn; }
+	int GetLastLineNumber() const { return m_lastLineNumber; }
+	int GetLastColumn() const { return m_lastColumn; }
+
+	StringA GetString(InputFile* file) const;
+
+LN_INTERNAL_ACCESS:
+	void SetFirstLineNumber(int lineNumber) { m_firstLineNumber = lineNumber; }
+	void SetFirstColumn(int column) { m_firstColumn = column; }
+	void SetLastLineNumber(int lineNumber) { m_lastLineNumber = lineNumber; }
+	void SetLastColumn(int column) { m_lastColumn = column; }
 
 private:
-	//Array<Token*>	m_tokenBuffer;
-	//Stack<int>		m_indexStack;
-};
 
+	// ポインタではなくオフセット値とし、シリアライズに備える
+	SourceLocation	m_locBegin;			// トークンの開始位置
+	SourceLocation	m_locEnd;			// トークンの終端位置 (最後の文字の次をさす)
+	uint32_t		m_firstLineNumber;
+	uint32_t		m_firstColumn;
+	uint32_t		m_lastLineNumber;
+	uint32_t		m_lastColumn;
+
+	TokenGroup		m_group;
+	int				m_tokenType;
+	bool			m_valid;
+};
 
 /**
 	@brief	
 */
 class TokenList
-	: public RefObject
-	, public Collection<Token*>
+	: public List<Token>
 {
 public:
 	TokenList() {}
@@ -63,4 +93,3 @@ public:
 };
 
 } // namespace fl
-} // namespace ln

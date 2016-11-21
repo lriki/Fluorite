@@ -1,4 +1,4 @@
-
+ï»¿
 #pragma once
 #include "Common.h"
 
@@ -15,28 +15,28 @@ enum class DiagnosticsCode
 	//CppLexer_InvalidToken = Severity_Error | CppLexerGroup | 0x0001,
 	UnexpectedEOFInBlockComment = Severity_Error | CppLexerGroup | 0x0001,
 
-	// RPN ‰ğÍE•]‰¿
+	// RPN è§£æãƒ»è©•ä¾¡
 	RpnEvaluatorGroup = 0x00020000,
 	RpnEvaluator_InvalidNumericLiteral		= Severity_Error | RpnEvaluatorGroup | 1,
-	RpnEvaluator_UnexpectedToken			= Severity_Error | RpnEvaluatorGroup | 2,	/**< —\Šú‚µ‚È‚¢ƒg[ƒNƒ“‚ªŒ©‚Â‚©‚è‚Ü‚µ‚½B*/
-	RpnEvaluator_InsufficientToken			= Severity_Error | RpnEvaluatorGroup | 3,	/**< ®‚ğ•]‰¿‚·‚é‚½‚ß‚Ìƒg[ƒNƒ“‚ª•s‘«‚µ‚Ä‚¢‚Ü‚·B(®‚ªŠ®Œ‹‚µ‚Ä‚¢‚È‚¢) */
-	RpnEvaluator_InvalidFuncCallArgsCount	= Severity_Error | RpnEvaluatorGroup | 4,	/**< ŠÖ”ŒÄ‚Ño‚µ‚Ìˆø”‚ª‘«‚è‚Ü‚¹‚ñB*/
-	RpnEvaluator_InvalidOperatorSide		= Severity_Error | RpnEvaluatorGroup | 5,	/**< ‰‰Zq‚Ì•Ó‚É‘Î‚·‚éƒIƒyƒ‰ƒ“ƒh‚ª‘«‚è‚Ü‚¹‚ñB*/
-	RpnEvaluator_InvalidNumericType			= Severity_Error | RpnEvaluatorGroup | 6,	/**< –³Œø‚È”’lŒ^‚Ìƒg[ƒNƒ“‚ª“ü—Í‚³‚ê‚Ü‚µ‚½B*/
-	RpnEvaluator_OperatorInvalidType		= Severity_Error | RpnEvaluatorGroup | 7,	/**< ‰‰Zq‚ÌŒ^‚É–³Œø‚ÈŒ^({0})‚ÌƒIƒyƒ‰ƒ“ƒh‚ªw’è‚³‚ê‚Ä‚¢‚Ü‚·B*/
+	RpnEvaluator_UnexpectedToken			= Severity_Error | RpnEvaluatorGroup | 2,	/**< äºˆæœŸã—ãªã„ãƒˆãƒ¼ã‚¯ãƒ³ãŒè¦‹ã¤ã‹ã‚Šã¾ã—ãŸã€‚*/
+	RpnEvaluator_InsufficientToken			= Severity_Error | RpnEvaluatorGroup | 3,	/**< å¼ã‚’è©•ä¾¡ã™ã‚‹ãŸã‚ã®ãƒˆãƒ¼ã‚¯ãƒ³ãŒä¸è¶³ã—ã¦ã„ã¾ã™ã€‚(å¼ãŒå®Œçµã—ã¦ã„ãªã„) */
+	RpnEvaluator_InvalidFuncCallArgsCount	= Severity_Error | RpnEvaluatorGroup | 4,	/**< é–¢æ•°å‘¼ã³å‡ºã—ã®å¼•æ•°ãŒè¶³ã‚Šã¾ã›ã‚“ã€‚*/
+	RpnEvaluator_InvalidOperatorSide		= Severity_Error | RpnEvaluatorGroup | 5,	/**< æ¼”ç®—å­ã®è¾ºã«å¯¾ã™ã‚‹ã‚ªãƒšãƒ©ãƒ³ãƒ‰ãŒè¶³ã‚Šã¾ã›ã‚“ã€‚*/
+	RpnEvaluator_InvalidNumericType			= Severity_Error | RpnEvaluatorGroup | 6,	/**< ç„¡åŠ¹ãªæ•°å€¤å‹ã®ãƒˆãƒ¼ã‚¯ãƒ³ãŒå…¥åŠ›ã•ã‚Œã¾ã—ãŸã€‚*/
+	RpnEvaluator_OperatorInvalidType		= Severity_Error | RpnEvaluatorGroup | 7,	/**< æ¼”ç®—å­ã®å‹ã«ç„¡åŠ¹ãªå‹({0})ã®ã‚ªãƒšãƒ©ãƒ³ãƒ‰ãŒæŒ‡å®šã•ã‚Œã¦ã„ã¾ã™ã€‚*/
 
-	// ƒvƒŠƒvƒƒZƒbƒT
+	// ãƒ—ãƒªãƒ—ãƒ­ã‚»ãƒƒã‚µ
 	PreprocessorGroup = 0x00030000,
-	Preprocessor_UnexpectedDirectiveToken	= Severity_Error | PreprocessorGroup | 1,	/**< —\Šú‚µ‚È‚¢ƒvƒŠƒvƒƒZƒbƒTƒfƒBƒŒƒNƒeƒBƒuƒg[ƒNƒ“‚ªŒ©‚Â‚©‚è‚Ü‚µ‚½B{0} */
-	Preprocessor_SyntaxError				= Severity_Error | PreprocessorGroup | 2,	/**< ƒvƒŠƒvƒƒZƒbƒTƒfƒBƒŒƒNƒeƒBƒu‚Ì\•¶ƒGƒ‰[‚Å‚·B*/
-	Preprocessor_InvalidConstantExpression	= Severity_Error | PreprocessorGroup | 4,	/**< ®”’è”®‚ª–³Œø‚Å‚·B*//* C1017 invalid integer constant expression */
-	Preprocessor_UnexpectedElse				= Severity_Error | PreprocessorGroup | 5,	/**< —\Šú‚µ‚È‚¢ #else ‚ªŒ©‚Â‚©‚è‚Ü‚µ‚½B*/
-	Preprocessor_UnexpectedEndif			= Severity_Error | PreprocessorGroup | 6,	/**< —\Šú‚µ‚È‚¢ #endif ‚ªŒ©‚Â‚©‚è‚Ü‚µ‚½B*/
-	Preprocessor_UnexpectedElif				= Severity_Error | PreprocessorGroup | 6,	/**< —\Šú‚µ‚È‚¢ #elif ‚ªŒ©‚Â‚©‚è‚Ü‚µ‚½B*/
-	Preprocessor_NoExistsEndif				= Severity_Error | PreprocessorGroup | 7,	/**< ‚±‚ÌƒfƒBƒŒƒNƒeƒBƒu‚Ì #endif ‚ª‚ ‚è‚Ü‚¹‚ñB*/
-	Preprocessor_ExpectedDefinedId			= Severity_Error | PreprocessorGroup | 8,	/**< defined ‚ÌŒã‚É¯•Êq‚ª•K—v‚Å‚·B*//* C2003 expected 'defined id' */
-	Preprocessor_InvalidHeaderName			= Severity_Error | PreprocessorGroup | 9,	/**< ƒwƒbƒ_–¼‚ª–³Œø‚Å‚·B*/
-	Preprocessor_IncludeFileNotFount		= Severity_Error | PreprocessorGroup | 10,	/**< include ƒtƒ@ƒCƒ‹‚ğŠJ‚¯‚Ü‚¹‚ñB{0} */
+	Preprocessor_UnexpectedDirectiveToken	= Severity_Error | PreprocessorGroup | 1,	/**< äºˆæœŸã—ãªã„ãƒ—ãƒªãƒ—ãƒ­ã‚»ãƒƒã‚µãƒ‡ã‚£ãƒ¬ã‚¯ãƒ†ã‚£ãƒ–ãƒˆãƒ¼ã‚¯ãƒ³ãŒè¦‹ã¤ã‹ã‚Šã¾ã—ãŸã€‚{0} */
+	Preprocessor_SyntaxError				= Severity_Error | PreprocessorGroup | 2,	/**< ãƒ—ãƒªãƒ—ãƒ­ã‚»ãƒƒã‚µãƒ‡ã‚£ãƒ¬ã‚¯ãƒ†ã‚£ãƒ–ã®æ§‹æ–‡ã‚¨ãƒ©ãƒ¼ã§ã™ã€‚*/
+	Preprocessor_InvalidConstantExpression	= Severity_Error | PreprocessorGroup | 4,	/**< æ•´æ•°å®šæ•°å¼ãŒç„¡åŠ¹ã§ã™ã€‚*//* C1017 invalid integer constant expression */
+	Preprocessor_UnexpectedElse				= Severity_Error | PreprocessorGroup | 5,	/**< äºˆæœŸã—ãªã„ #else ãŒè¦‹ã¤ã‹ã‚Šã¾ã—ãŸã€‚*/
+	Preprocessor_UnexpectedEndif			= Severity_Error | PreprocessorGroup | 6,	/**< äºˆæœŸã—ãªã„ #endif ãŒè¦‹ã¤ã‹ã‚Šã¾ã—ãŸã€‚*/
+	Preprocessor_UnexpectedElif				= Severity_Error | PreprocessorGroup | 6,	/**< äºˆæœŸã—ãªã„ #elif ãŒè¦‹ã¤ã‹ã‚Šã¾ã—ãŸã€‚*/
+	Preprocessor_NoExistsEndif				= Severity_Error | PreprocessorGroup | 7,	/**< ã“ã®ãƒ‡ã‚£ãƒ¬ã‚¯ãƒ†ã‚£ãƒ–ã® #endif ãŒã‚ã‚Šã¾ã›ã‚“ã€‚*/
+	Preprocessor_ExpectedDefinedId			= Severity_Error | PreprocessorGroup | 8,	/**< defined ã®å¾Œã«è­˜åˆ¥å­ãŒå¿…è¦ã§ã™ã€‚*//* C2003 expected 'defined id' */
+	Preprocessor_InvalidHeaderName			= Severity_Error | PreprocessorGroup | 9,	/**< ãƒ˜ãƒƒãƒ€åãŒç„¡åŠ¹ã§ã™ã€‚*/
+	Preprocessor_IncludeFileNotFount		= Severity_Error | PreprocessorGroup | 10,	/**< include ãƒ•ã‚¡ã‚¤ãƒ«ã‚’é–‹ã‘ã¾ã›ã‚“ã€‚{0} */
 };
 
 enum class SeverityLevel
@@ -48,7 +48,7 @@ enum class SeverityLevel
 };
 
 /**
-	@brief	f’fî•ñ1€–Ú
+	@brief	è¨ºæ–­æƒ…å ±1é …ç›®
 */
 class DiagnosticsItem
 {
@@ -56,16 +56,16 @@ public:
 	DiagnosticsItem() = default;
 	~DiagnosticsItem() = default;
 
-	/** ƒGƒ‰[ƒR[ƒh */
+	/** ã‚¨ãƒ©ãƒ¼ã‚³ãƒ¼ãƒ‰ */
 	DiagnosticsCode GetCode() const { return m_code; }
 
-	/** ƒGƒ‰[‚Ì’Ç‰Áî•ñBƒGƒ‰[î•ñ‚É‚æ‚Á‚ÄŠi”[‚³‚ê‚é’l‚ÍˆÙ‚È‚é */
+	/** ã‚¨ãƒ©ãƒ¼ã®è¿½åŠ æƒ…å ±ã€‚ã‚¨ãƒ©ãƒ¼æƒ…å ±ã«ã‚ˆã£ã¦æ ¼ç´ã•ã‚Œã‚‹å€¤ã¯ç•°ãªã‚‹ */
 	const flStringArray& GetOptions() const { return m_options; }
 
 private:
 	friend class DiagnosticsItemSet;
 	//DiagnosticsItem();
-	//PathName	m_filePath;		// ‚Å‚«‚é‚¾‚¯ DiagnosticsManager ‚©‚ç’¼Ú‘ã“ü‚·‚é‚æ‚¤‚É‚µAƒƒ‚ƒŠ‚ğ‹¤—L‚Å‚«‚é‚æ‚¤‚É‚·‚é
+	//PathName	m_filePath;		// ã§ãã‚‹ã ã‘ DiagnosticsManager ã‹ã‚‰ç›´æ¥ä»£å…¥ã™ã‚‹ã‚ˆã†ã«ã—ã€ãƒ¡ãƒ¢ãƒªã‚’å…±æœ‰ã§ãã‚‹ã‚ˆã†ã«ã™ã‚‹
 	DiagnosticsCode	m_code;
 	int				m_lineNumber;
 	int				m_columnNumber;
@@ -73,24 +73,26 @@ private:
 };
 
 /**
-	@brief	ƒtƒ@ƒCƒ‹1‚Â’PˆÊ‚ğƒOƒ‹[ƒv‰»‚µ‚½‚à‚Ì
+	@brief	ãƒ•ã‚¡ã‚¤ãƒ«1ã¤å˜ä½ã‚’ã‚°ãƒ«ãƒ¼ãƒ—åŒ–ã—ãŸã‚‚ã®
 
-	@note	ƒtƒ@ƒCƒ‹ƒpƒX‚È‚Ç•¡”‚ÌƒGƒ‰[‚ª‚Âî•ñ‚ğ‚Ü‚Æ‚ß‚½‚à‚ÌB
-			ƒtƒ@ƒCƒ‹ƒpƒX—p‚Ìƒƒ‚ƒŠ‚ğ Item ‚²‚Æ‚É‚½‚¹‚È‚¢‚æ‚¤‚É‚·‚é‚Ì‚à–Ú“I‚Ì1‚ÂB
-			•À—ñˆ—‚·‚é‚Æ‚«‚àAƒGƒ‰[ƒŒƒ|[ƒg‚Ì‚½‚Ñ‚ÉƒƒbƒN‚·‚é‚Ì‚Í‚æ‚ë‚µ‚­‚È‚¢B
+	@note	ãƒ•ã‚¡ã‚¤ãƒ«ãƒ‘ã‚¹ãªã©è¤‡æ•°ã®ã‚¨ãƒ©ãƒ¼ãŒæŒã¤æƒ…å ±ã‚’ã¾ã¨ã‚ãŸã‚‚ã®ã€‚
+			ãƒ•ã‚¡ã‚¤ãƒ«ãƒ‘ã‚¹ç”¨ã®ãƒ¡ãƒ¢ãƒªã‚’ Item ã”ã¨ã«æŒãŸã›ãªã„ã‚ˆã†ã«ã™ã‚‹ã®ã‚‚ç›®çš„ã®1ã¤ã€‚
+			ä¸¦åˆ—å‡¦ç†ã™ã‚‹ã¨ãã‚‚ã€ã‚¨ãƒ©ãƒ¼ãƒ¬ãƒãƒ¼ãƒˆã®ãŸã³ã«ãƒ­ãƒƒã‚¯ã™ã‚‹ã®ã¯ã‚ˆã‚ã—ããªã„ã€‚
 */
 class DiagnosticsItemSet
+	: public Object
 {
 public:
-	DiagnosticsItemSet() = default;
-	~DiagnosticsItemSet() = default;
 
 	const List<DiagnosticsItem>* GetItems() { return &m_items; }
 
 	bool HasError() const { return !m_items.IsEmpty(); }
 
 LN_INTERNAL_ACCESS:
-	// ‰ğÍ’†‚Ég—p‚·‚éî•ñ
+	DiagnosticsItemSet(const PathNameA& absFilePath);
+	~DiagnosticsItemSet() = default;
+
+	// è§£æä¸­ã«ä½¿ç”¨ã™ã‚‹æƒ…å ±
 	int SetCurrentLineNumber(int line) { m_currentLineNumber = line; }
 	int SetCurrentColumnNumber(int column) { m_currentColumnNumber = column; }
 
@@ -99,7 +101,7 @@ LN_INTERNAL_ACCESS:
 	void Report(DiagnosticsCode code, flString option1);
 
 private:
-	PathName	m_filePath;
+	PathNameA	m_absFilePath;
 	int			m_currentLineNumber;
 	int			m_currentColumnNumber;
 	List<DiagnosticsItem>	m_items;
@@ -110,6 +112,24 @@ private:
 		m_diag->Report(errorCode); \
 		return ResultState::Error; \
 	}
+
+
+/**
+	@brief	
+*/
+class DiagnosticsManager
+	: public Object
+{
+public:
+	DiagnosticsManager() = default;
+	~DiagnosticsManager() = default;
+
+	void Clear();
+	DiagnosticsItemSet* CreateItemSet(const PathNameA& absFilePath);
+
+private:
+	List<RefPtr<DiagnosticsItemSet>>	m_itemSetList;
+};
 
 } // namespace fl
 

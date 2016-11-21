@@ -7,6 +7,13 @@ namespace fl {
 //==============================================================================
 // DiagnosticsItemSet
 //==============================================================================
+
+//------------------------------------------------------------------------------
+DiagnosticsItemSet::DiagnosticsItemSet(const PathNameA& absFilePath)
+	: m_absFilePath(absFilePath)
+{
+}
+
 //------------------------------------------------------------------------------
 void DiagnosticsItemSet::Report(DiagnosticsCode code)
 {
@@ -26,6 +33,23 @@ void DiagnosticsItemSet::Report(DiagnosticsCode code, flString option1)
 	item.m_columnNumber = m_currentColumnNumber;
 	item.m_options.Add(option1);
 	m_items.Add(item);
+}
+
+//==============================================================================
+// DiagnosticsManager
+//==============================================================================
+//------------------------------------------------------------------------------
+void DiagnosticsManager::Clear()
+{
+	m_itemSetList.Clear();
+}
+
+//------------------------------------------------------------------------------
+DiagnosticsItemSet* DiagnosticsManager::CreateItemSet(const PathNameA& absFilePath)
+{
+	auto ptr = RefPtr<DiagnosticsItemSet>::MakeRef(absFilePath);
+	m_itemSetList.Add(ptr);
+	return ptr;
 }
 
 } // namespace fl

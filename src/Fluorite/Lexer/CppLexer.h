@@ -1,4 +1,4 @@
-
+ï»¿
 /*
 literal:
 	integer-literal
@@ -10,20 +10,18 @@ literal:
 	user-defined-literal
 */
 #pragma once
-#include "../Lexer.h"
+#include "AbstractLexer.h"
 
-LN_NAMESPACE_BEGIN
-namespace parser
-{
+namespace fl {
 	
-/// (bison ‚Éí•Ê‚Æ‚µ‚Ä“`‚¦‚é‚½‚ßA×‚©‚­’è”•ª‚¯‚·‚é)[2015/12/16] ‚·‚é—\’è‚¾‚Á‚½‚¯‚Ç‚½‚Ô‚ñ‚µ‚È‚¢
+/// (bison ã«ç¨®åˆ¥ã¨ã—ã¦ä¼ãˆã‚‹ãŸã‚ã€ç´°ã‹ãå®šæ•°åˆ†ã‘ã™ã‚‹)[2015/12/16] ã™ã‚‹äºˆå®šã ã£ãŸã‘ã©ãŸã¶ã‚“ã—ãªã„
 enum CppTokenType
 {
 	TT_Cpp_Unknown = 0,
 
-	/* 1`255 ‚Í ASCII •¶š‚Æ‚·‚é (bison ‚Å•¶šƒŠƒeƒ‰ƒ‹ '*' “™‚ªg‚¦‚é‚æ‚¤‚É‚È‚é) */
+	/* 1ï½255 ã¯ ASCII æ–‡å­—ã¨ã™ã‚‹ (bison ã§æ–‡å­—ãƒªãƒ†ãƒ©ãƒ« '*' ç­‰ãŒä½¿ãˆã‚‹ã‚ˆã†ã«ãªã‚‹) */
 
-	/* ˆÈ‰º‚Í‘S‚Ä bison ’è‹`ƒtƒ@ƒCƒ‹“à‚Å %token ‚Æ‚µ‚Ä‚à’è‹`‚·‚é */
+	/* ä»¥ä¸‹ã¯å…¨ã¦ bison å®šç¾©ãƒ•ã‚¡ã‚¤ãƒ«å†…ã§ %token ã¨ã—ã¦ã‚‚å®šç¾©ã™ã‚‹ */
 
 	TT_CppKW_asm = 256,
 	TT_CppKW_auto,
@@ -89,10 +87,10 @@ enum CppTokenType
 	TT_CppKW_wchar_t,
 	TT_CppKW_while,
 
-	TT_CppOP_SeparatorBegin,	///< ˆÈ~‚Í‰‰Zq
+	TT_CppOP_SeparatorBegin,	///< ä»¥é™ã¯æ¼”ç®—å­
 	// operator
-	// ‰ğÍ‚ÍŠî–{“I‚É•¶š”‚Ì‘å‚«‚¢•û‚©‚çƒg[ƒNƒ“•ªŠ„‚µ‚È‚¢‚ÆA—á‚¦‚Î + ‚Æ ++ ‚ğŠÔˆá‚¦‚é‚±‚Æ‚ª‚ ‚éB
-	// —ájx+++++y	¨	x ++ ++ + y,
+	// è§£ææ™‚ã¯åŸºæœ¬çš„ã«æ–‡å­—æ•°ã®å¤§ãã„æ–¹ã‹ã‚‰ãƒˆãƒ¼ã‚¯ãƒ³åˆ†å‰²ã—ãªã„ã¨ã€ä¾‹ãˆã° + ã¨ ++ ã‚’é–“é•ãˆã‚‹ã“ã¨ãŒã‚ã‚‹ã€‚
+	// ä¾‹ï¼‰x+++++y	â†’	x ++ ++ + y,
 	TT_CppOP_SharpSharp,		// ## (concat)
 	TT_CppOP_Sharp,				// # (Prepro/stringize)
 	TT_CppOP_ArrowAsterisk,		// ->*
@@ -144,15 +142,15 @@ enum CppTokenType
 	TT_CppOP_LeftAngle,			// <
 	TT_CppOP_RightAngle,		// >
 
-	TT_CppOP_SeparatorEnd,			///< ˆÈ~‚Í‰‰Zq
+	TT_CppOP_SeparatorEnd,			///< ä»¥é™ã¯æ¼”ç®—å­
 
 	//<: :> <% %> %: %:%: ?= 
 	//and and_eq bitand bitor compl not not_eq
 	//or or_eq xor xor_eq
 
-	// new delete ‚ÍƒL[ƒ[ƒh‚Æ‚µ‚Äˆµ‚¤
+	// new delete ã¯ã‚­ãƒ¼ãƒ¯ãƒ¼ãƒ‰ã¨ã—ã¦æ‰±ã†
 
-	/* ‚¿‚È‚İ‚É C++11 ‚Ì‰‰Zq‚ÍˆÈ‰º‚Ì’Ê‚èBƒgƒŠƒOƒ‰ƒt‚ğŠÜ‚Ü‚È‚¯‚ê‚Î C++ ‚Æ“¯‚¶
+	/* ã¡ãªã¿ã« C++11 ã®æ¼”ç®—å­ã¯ä»¥ä¸‹ã®é€šã‚Šã€‚ãƒˆãƒªã‚°ãƒ©ãƒ•ã‚’å«ã¾ãªã‘ã‚Œã° C++ ã¨åŒã˜
 	{ } [ ] # ## ( )
 	<: :> <% %> %: %:%: ; : ...
 	new delete ? :: . .*
@@ -190,17 +188,17 @@ enum CppTokenType
 	@brief
 	@note	
 		[2016/2/22 2]
-		‚â‚Á‚Ï‚è #include ‚Í“Á•Êˆµ‚¢‚µ‚½‚Ù‚¤‚ªFX‚Æ“s‡‚ª‚¢‚¢B
-		ƒCƒ“ƒNƒ‹[ƒhƒtƒ@ƒCƒ‹–¼‚Ìƒg[ƒNƒ“‚Í header-name ‚Æ‚µ‚Äæ‚èo‚·B
+		ã‚„ã£ã±ã‚Š #include ã¯ç‰¹åˆ¥æ‰±ã„ã—ãŸã»ã†ãŒè‰²ã€…ã¨éƒ½åˆãŒã„ã„ã€‚
+		ã‚¤ãƒ³ã‚¯ãƒ«ãƒ¼ãƒ‰ãƒ•ã‚¡ã‚¤ãƒ«åã®ãƒˆãƒ¼ã‚¯ãƒ³ã¯ header-name ã¨ã—ã¦å–ã‚Šå‡ºã™ã€‚
 	
 		[2016/2/22]
-		#include ‚â #line “™‚ÍALexer ‚Å‚Í pp-tokens ‚Æ‚µ‚Ä‰ğÍ‚·‚éB
-		\•¶“I‚É‚Í‚±‚¤B
+		#include ã‚„ #line ç­‰ã¯ã€Lexer ã§ã¯ pp-tokens ã¨ã—ã¦è§£æã™ã‚‹ã€‚
+		æ§‹æ–‡çš„ã«ã¯ã“ã†ã€‚
 			:: # include pp-tokens new-line
 			:: # line pp-tokens new-line
 
-		‚ÅAPreprocessor ƒNƒ‰ƒX‚ÅApp-tokens ‚ğƒg[ƒNƒ“•ªŠ„‚·‚éB
-		‚¿‚È‚İ‚É pp-tokens ‚Ì\•¶‚ÍŸ‚Ì’Ê‚èB
+		ã§ã€Preprocessor ã‚¯ãƒ©ã‚¹ã§ã€pp-tokens ã‚’ãƒˆãƒ¼ã‚¯ãƒ³åˆ†å‰²ã™ã‚‹ã€‚
+		ã¡ãªã¿ã« pp-tokens ã®æ§‹æ–‡ã¯æ¬¡ã®é€šã‚Šã€‚
 			pp-tokens:
 				preprocessing-token
 				pp-tokens preprocessing-token
@@ -214,12 +212,12 @@ enum CppTokenType
 				user-defined-string-literal
 				preprocessing-op-or-punc
 				each non-white-space character that cannot be one of the above
-		\•¶“I‚É‚Í #include <a.h> <b.h> ‚Æ‚©‘‚¯‚é“_‚É’ˆÓB
+		æ§‹æ–‡çš„ã«ã¯ #include <a.h> <b.h> ã¨ã‹æ›¸ã‘ã‚‹ç‚¹ã«æ³¨æ„ã€‚
 
-		~ #include ‚Í“Á•Êˆµ‚¢‚·‚éB<> ‚ÅˆÍ‚Ü‚ê‚½ƒtƒ@ƒCƒ‹ƒpƒX‚Í•¶š—ñƒŠƒeƒ‰ƒ‹ˆµ‚¢‚·‚éB
+		Ã— #include ã¯ç‰¹åˆ¥æ‰±ã„ã™ã‚‹ã€‚<> ã§å›²ã¾ã‚ŒãŸãƒ•ã‚¡ã‚¤ãƒ«ãƒ‘ã‚¹ã¯æ–‡å­—åˆ—ãƒªãƒ†ãƒ©ãƒ«æ‰±ã„ã™ã‚‹ã€‚
 */
 class CppLexer
-	: public Lexer
+	: public AbstractLexer
 {
 public:
 	typedef int(TokenCheckCallback)(const Range& buffer);
@@ -233,61 +231,61 @@ public:
 
 
 	static int IsSpaceChar(const Range& r);
-	int ReadSpaceSequence(const Range& buffer, ReadResult* outResult);
+	int ReadSpaceSequence(const Range& buffer);
 
 
 	static int IsKeyword(const Range& buffer, int* langTokenType);
-	int ReadKeyword(const Range& buffer, ReadResult* outResult);
+	int ReadKeyword(const Range& buffer);
 
-	static int ReadEnclosingTokenHelper(const Range& buffer, TokenCheckCallback start, TokenCheckCallback end, const TokenChar* chars, bool* outNotFoundEndToken);
+	static int ReadEnclosingTokenHelper(const Range& buffer, TokenCheckCallback start, TokenCheckCallback end, const char* chars, bool* outNotFoundEndToken);
 
-	int ReadCharLiteral(const Range& buffer, ReadResult* outResult);
+	int ReadCharLiteral(const Range& buffer);
 	static int IsCharLiteralStart(const Range& buffer);
 	static int IsCharLiteralEnd(const Range& buffer);
 	//static int IsAnyChar(const Range& buffer, const TokenChar* chars, int count);
 
-	int ReadStringLiteral(const Range& buffer, ReadResult* outResult);
+	int ReadStringLiteral(const Range& buffer);
 	static int IsStringLiteralStart(const Range& buffer);
 	static int IsStringLiteralEnd(const Range& buffer);
 
-	int ReadIdentifier(const Range& buffer, ReadResult* outResult);
+	int ReadIdentifier(const Range& buffer);
 	static int IsIdentifierStart(const Range& buffer);
 	static int IsIdentifierLetter(const Range& buffer);
 
-	int ReadNumericLiteral(const Range& buffer, ReadResult* outResult);
+	int ReadNumericLiteral(const Range& buffer);
 	static int IsHexLiteralStart(const Range& buffer);
 	static int IsIntegerSuffix(const Range& buffer, int* outLiteralType);
 	static int IsRealSuffix(const Range& buffer, int* outLiteralType);
 	static int IsExponentStart(const Range& buffer);
 
-	int ReadBlockComment(const Range& buffer, ReadResult* outResult);
+	int ReadBlockComment(const Range& buffer);
 	static int IsBlockCommentStart(const Range& buffer);
 	static int IsBlockCommentEnd(const Range& buffer);
 
-	int ReadLineComment(const Range& buffer, ReadResult* outResult);
+	int ReadLineComment(const Range& buffer);
 	static int IsLineCommentStart(const Range& buffer);
 
-	int ReadOperator(const Range& buffer, ReadResult* outResult);
+	int ReadOperator(const Range& buffer);
 	static int IsOperator(const Range& buffer, int* langTokenType);
 
-	int ReadEscapeNewLine(const Range& buffer, ReadResult* outResult);
+	int ReadEscapeNewLine(const Range& buffer);
 	static int IsEscapeNewLine(const Range& buffer);
 
-	int ReadPPHeaderName(const Range& buffer, ReadResult* outResult);
+	int ReadPPHeaderName(const Range& buffer);
 	static int IsStringLiteralStartInIncludeDirective(const Range& buffer);
 	static int IsStringLiteralEndIncludeDirective(const Range& buffer);
 
-	int ReadPPTokens(const Range& buffer, ReadResult* outResult);
+	int ReadPPTokens(const Range& buffer);
 
 private:
-	// pp-tokens ‚Æ‚µ‚Äæ‚èo‚·ƒvƒŠƒvƒƒZƒbƒTƒfƒBƒŒƒNƒeƒBƒu
+	// pp-tokens ã¨ã—ã¦å–ã‚Šå‡ºã™ãƒ—ãƒªãƒ—ãƒ­ã‚»ãƒƒã‚µãƒ‡ã‚£ãƒ¬ã‚¯ãƒ†ã‚£ãƒ–
 	enum class PPDirectiveSeq
 	{
-		Idle = 0,		// ‰½‚à‚µ‚Ä‚¢‚È‚¢
-		LineHead,		// s“ª‚Å‚ ‚éB‚Ü‚½‚Í‰Šúó‘Ô
-		FoundSharp,		// "#" ‚ğŒ©‚Â‚¯‚½
+		Idle = 0,		// ä½•ã‚‚ã—ã¦ã„ãªã„
+		LineHead,		// è¡Œé ­ã§ã‚ã‚‹ã€‚ã¾ãŸã¯åˆæœŸçŠ¶æ…‹
+		FoundSharp,		// "#" ã‚’è¦‹ã¤ã‘ãŸ
 
-		//FoundInclude,	// "include" ‚ğŒ©‚Â‚¯‚½
+		//FoundInclude,	// "include" ã‚’è¦‹ã¤ã‘ãŸ
 		ReadingPPHeaderName,
 		ReadingPPTokens,
 	};
@@ -295,6 +293,5 @@ private:
 	PPDirectiveSeq	m_seqPPDirective;
 };
 
-} // namespace Parser
-LN_NAMESPACE_END
+} // namespace fl
 
