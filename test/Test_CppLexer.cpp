@@ -243,10 +243,10 @@ TEST_F(Test_CppLexer, Example)
 {
 	// キーワードを <b> で囲んでみる
 	AnalyzerContext ctx;
-	InputFile* file = ctx.RegisterInputFile(LOCALFILE("Test_CppLexer.cpp"));
+	InputFile* file = ctx.RegisterInputFile(LN_LOCALFILE("Test_CppLexer.cpp"));
 	ctx.LexFile(file);
 	const TokenList& tokens = *file->GetTokenList();
-	XmlFileWriter xml("test.html");
+	tr::XmlFileWriter xml("test.html");
 	xml.WriteStartDocument();
 	xml.WriteStartElement(_T("body"));
 	for (const Token& t : tokens)
