@@ -253,14 +253,14 @@ TEST_F(Test_CppLexer, Example)
 	{
 		if (t.GetTokenGroup() == TokenGroup::Keyword)
 		{
-			xml.WriteStartElement("b");
+			xml.WriteStartElement(_T("b"));
 			StringA str = t.GetString(file);
 			xml.WriteString(String::FromNativeCharString(str.c_str(), str.GetLength()));
 			xml.WriteEndElement();
 		}
 		else if(t.GetTokenGroup() == TokenGroup::NewLine)
 		{
-			xml.WriteStartElement("br");
+			xml.WriteStartElement(_T("br"));
 			xml.WriteEndElement();
 		}
 		else
