@@ -150,6 +150,7 @@
 			printf("%d\n", BBB);	// 1
 		```````````````````````````````
 */
+#if 0
 #include "../../Internal.h"
 #include "../../DiagnosticsManager.h"
 #include "../../ParserUtils.h"
@@ -904,3 +905,4 @@ bool Preprocessor::IsValidSection() const
 } // namespace Parser
 LN_NAMESPACE_END
 
+#endif

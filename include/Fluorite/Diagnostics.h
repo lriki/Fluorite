@@ -83,14 +83,14 @@ class DiagnosticsItemSet
 	: public Object
 {
 public:
+	DiagnosticsItemSet(const PathNameA& absFilePath);
+	~DiagnosticsItemSet() = default;
 
 	const List<DiagnosticsItem>* GetItems() { return &m_items; }
 
 	bool HasError() const { return !m_items.IsEmpty(); }
 
 LN_INTERNAL_ACCESS:
-	DiagnosticsItemSet(const PathNameA& absFilePath);
-	~DiagnosticsItemSet() = default;
 
 	// 解析中に使用する情報
 	int SetCurrentLineNumber(int line) { m_currentLineNumber = line; }

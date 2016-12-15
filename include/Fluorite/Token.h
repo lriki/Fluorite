@@ -35,6 +35,7 @@ public:
 	int GetLastLineNumber() const { return m_lastLineNumber; }
 	int GetLastColumn() const { return m_lastColumn; }
 
+	const flChar* GetCStr(InputFile* file) const;	// not null terminator
 	StringA GetString(InputFile* file) const;
 
 LN_INTERNAL_ACCESS:

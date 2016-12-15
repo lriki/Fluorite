@@ -15,6 +15,7 @@ namespace fl
 //------------------------------------------------------------------------------
 InputFile::InputFile(const PathNameA& filePath)
 	: m_lang(Language::Cpp11)
+	, m_category(InputFileCategory::CompileUnit)
 	, m_filePath(filePath)
 	, m_codeRead(false)
 	, m_diag(nullptr)
@@ -99,10 +100,28 @@ void AnalyzerContext::LexAll()
 //------------------------------------------------------------------------------
 void AnalyzerContext::LexFile(InputFile* file)
 {
-	LN_CHECK_ARG(file != nullptr);
+	LN_FAIL_CHECK_ARG(file != nullptr) return;
 	ResetFileDiagnostics(file);
 	auto lexer = CreateLexer(file);
 	lexer->Tokenize(file);
+}
+
+//------------------------------------------------------------------------------
+void AnalyzerContext::PreprocessAll()
+{
+	for (InputFile* file : m_inputFileList)
+	{
+		PreprocessFile(file);
+	}
+}
+
+//------------------------------------------------------------------------------
+void AnalyzerContext::PreprocessFile(InputFile* file)
+{
+	LN_FAIL_CHECK_ARG(file != nullptr) return;
+	LN_FAIL_CHECK_ARG(file->GetCategory() != InputFileCategory::CompileUnit) return;
+
+	LN_NOTIMPLEMENTED();
 }
 
 //------------------------------------------------------------------------------

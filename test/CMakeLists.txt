@@ -5,8 +5,7 @@ set(LN_TEST_SOURCES
 	TestConfig.h
 	Test_CppLexer.cpp
 	#Test_Parser_Preprocessor.cpp
-	#Test_Parser_RpnEvaluator.cpp
-	#Test_Parser_RpnParser.cpp
+	Test_Rpn.cpp
 )
 
 include_directories(

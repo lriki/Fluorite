@@ -26,11 +26,13 @@ set(LN_FL_SOURCES_Common
 	src/Fluorite/Internal.h
 #	src/Fluorite/Lexer.cpp
 #	src/Fluorite/Lexer.h
-#	src/Fluorite/Preprocessor.cpp
-#	src/Fluorite/Preprocessor.h
+	src/Fluorite/Preprocessor.cpp
+	src/Fluorite/Preprocessor.h
 #	src/Fluorite/Reference.cpp
 #	src/Fluorite/TranslationUnit.cpp
 	src/Fluorite/Token.cpp
+	src/Fluorite/Rpn/RpnParser.cpp
+	src/Fluorite/Rpn/RpnParser.h
 )
 
 set(LN_FL_SOURCES_Lexer

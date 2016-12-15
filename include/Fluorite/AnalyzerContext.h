@@ -7,6 +7,12 @@ class DiagnosticsItemSet;
 class DiagnosticsManager;
 class AbstractLexer;
 
+enum class InputFileCategory
+{
+	CompileUnit,
+	Header,
+};
+
 /**
 	@brief	
 */
@@ -19,6 +25,7 @@ public:
 	~InputFile() = default;
 
 	Language GetLanguage() const { return m_lang; }
+	InputFileCategory GetCategory() const { return m_category; }
 	const PathNameA& GetRelativeFilePath() const { return m_filePath; }
 	DiagnosticsItemSet* GetDiag() const { return m_diag; }
 	const TokenList* GetTokenList() const { return &m_tokenList; }
@@ -32,6 +39,7 @@ private:
 	void ReadFile();
 
 	Language			m_lang;
+	InputFileCategory	m_category;
 	PathNameA			m_filePath;
 	ByteBuffer			m_code;
 	bool				m_codeRead;
@@ -48,8 +56,12 @@ public:
 	AnalyzerContext();
 	virtual ~AnalyzerContext();
 
+	/** ソースファイルを登録する */
 	InputFile* RegisterInputFile(const PathNameA& filePath);
+
+	/** メモリ上のデータをファイルである可能に登録する */
 	InputFile* RegisterInputMemoryCode(const PathNameA& filePath, const char* code, int length = -1);
+
 	void RemoveAllInputFile();
 
 	void Analyze();
@@ -57,6 +69,8 @@ public:
 	void LexAll();
 	void LexFile(InputFile* file);
 	
+	void PreprocessAll();
+	void PreprocessFile(InputFile* file);
 
 private:
 	void ResetFileDiagnostics(InputFile* file);

@@ -14,6 +14,7 @@
 #include <Lumino/IO/PathName.h>
 using namespace ln;		// TODO: あとで消す
 
+using flChar = char;
 using flStringArray = ln::StringArrayA;
 using flString = ln::StringA;
 
