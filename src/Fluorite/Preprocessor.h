@@ -1,6 +1,34 @@
-
+ï»¿
 #pragma once
 
+namespace fl {
+class InputFile;
+
+class SymbolTable
+{
+public:
+
+private:
+
+};
+	
+/**
+	@brief	ãƒ•ã‚¡ã‚¤ãƒ«1ã¤åˆ†ã®ãƒ—ãƒªãƒ—ãƒ­ã‚»ã‚¹ã‚’è¡Œã†ã€‚
+	
+	.cpp ã‚„ .h ã²ã¨ã¤åˆ†ã€‚ãƒ˜ãƒƒãƒ€ãƒ•ã‚¡ã‚¤ãƒ«ã‚‚1ã¤åˆ†ã€‚
+*/
+class Preprocessor
+{
+public:
+	Preprocessor();
+
+	//void Preprocess(
+	//	InputFile* compileUnitFile,
+	//	UnitFile* unitFile,
+	//	const MacroMapContainer& parentMacroMap);
+};
+
+} // namespace fl
 
 #if 0
 #include <unordered_map>
@@ -27,7 +55,7 @@ public:
 	SourceLocation	end;
 };
 
-// ƒ}ƒNƒ’è‹`‚ÌÀ‘ÌB“¯–¼ƒ}ƒNƒ‚Í‚ ‚è‚¦‚é(undef Œã‚ÌÄ’è‹`‚µ‚Ä‚à‘O‚Ì‚Í•Û‚·‚é)B‚»‚Ìê‡‚Í’ÊíA’è‹`s‚ªˆá‚¤B
+// ãƒã‚¯ãƒ­å®šç¾©ã®å®Ÿä½“ã€‚åŒåãƒã‚¯ãƒ­ã¯ã‚ã‚Šãˆã‚‹(undef å¾Œã®å†å®šç¾©ã—ã¦ã‚‚å‰ã®ã¯ä¿æŒã™ã‚‹)ã€‚ãã®å ´åˆã¯é€šå¸¸ã€å®šç¾©è¡ŒãŒé•ã†ã€‚
 // 
 class MacroDefine
 	: public RefObject
@@ -35,11 +63,11 @@ class MacroDefine
 public:
 	TokenString		name;
 	SourceRange		replacementRange;
-	//TokenString		replacementContentString;	// TODO: ‚¢‚ç‚È‚¢‚©‚àB’uŠ·—v‘f‚ğ•¶š—ñ‚Å•À‚×‚½‚à‚Ì (Š®‘Sˆê’v‚ÌŠm”F‚Åg‚¤B‘OŒã‚Ì‹ó”’‚ÍÁ‚µ‚Ä‚¨‚­)
+	//TokenString		replacementContentString;	// TODO: ã„ã‚‰ãªã„ã‹ã‚‚ã€‚ç½®æ›è¦ç´ ã‚’æ–‡å­—åˆ—ã§ä¸¦ã¹ãŸã‚‚ã® (å®Œå…¨ä¸€è‡´ã®ç¢ºèªã§ä½¿ã†ã€‚å‰å¾Œã®ç©ºç™½ã¯æ¶ˆã—ã¦ãŠã)
 
 	bool		undef = false;
 
-	//void AppendReplacementToTokenList(TokenList* tokenList);	// TODO: ˆø”ƒŠƒXƒg
+	//void AppendReplacementToTokenList(TokenList* tokenList);	// TODO: å¼•æ•°ãƒªã‚¹ãƒˆ
 
 	MacroDefine(){}
 
@@ -69,15 +97,15 @@ public:
 	//bool IsFreeze() const { return m_freeze; }
 
 private:
-	Array<RefPtr<MacroDefine>>			m_allMacroList;	// ‰ß‹‚É’è‹`‚³‚ê‚½‘S‚Ä‚Ìƒ}ƒNƒ
-	IdentifierMap<MacroDefine*>	m_macroMap;		// Ä’è‹`‚³‚ê‚½‚è‚µ‚½‚à‚Ì‚Íˆê”ÔV‚µ‚¢ƒ}ƒNƒ‚ªŠi”[‚³‚ê‚é
-	//bool						m_freeze;		// •ÏX‹Ö~ƒtƒ‰ƒO
+	Array<RefPtr<MacroDefine>>			m_allMacroList;	// éå»ã«å®šç¾©ã•ã‚ŒãŸå…¨ã¦ã®ãƒã‚¯ãƒ­
+	IdentifierMap<MacroDefine*>	m_macroMap;		// å†å®šç¾©ã•ã‚ŒãŸã‚Šã—ãŸã‚‚ã®ã¯ä¸€ç•ªæ–°ã—ã„ãƒã‚¯ãƒ­ãŒæ ¼ç´ã•ã‚Œã‚‹
+	//bool						m_freeze;		// å¤‰æ›´ç¦æ­¢ãƒ•ãƒ©ã‚°
 };
 
-// COW ‹¤—L‚Ìx‰‡
-//		# ‚ª1‚Â‚à–³‚¢ include ƒtƒ@ƒCƒ‹‚Ì‚½‚ß‚É MacroMap ‚ğì‚Á‚½‚è‚·‚é‚Æƒƒ‚ƒŠŒø—¦‚ªˆ«‚­‚È‚éB
-//		include ƒtƒ@ƒCƒ‹‚Ì‰ğÍŠJn‚Å MAcroMap ‚ğƒRƒs[‚·‚é‚©I—¹‚É‚·‚é‚©‚Æ‚©l‚¦‚é‚Æ•¡G‚É‚È‚Á‚½‚è‚·‚éB
-//		–{“–‚É•K—v‚Èƒ^ƒCƒ~ƒ“ƒO‚ÅƒRƒs[‚ğì‚é‚½‚ß‚É‚±‚ÌƒNƒ‰ƒX‚ğ—pˆÓ‚µ‚½B
+// COW å…±æœ‰ã®æ”¯æ´
+//		# ãŒ1ã¤ã‚‚ç„¡ã„ include ãƒ•ã‚¡ã‚¤ãƒ«ã®ãŸã‚ã« MacroMap ã‚’ä½œã£ãŸã‚Šã™ã‚‹ã¨ãƒ¡ãƒ¢ãƒªåŠ¹ç‡ãŒæ‚ªããªã‚‹ã€‚
+//		include ãƒ•ã‚¡ã‚¤ãƒ«ã®è§£æé–‹å§‹ã§ MAcroMap ã‚’ã‚³ãƒ”ãƒ¼ã™ã‚‹ã‹çµ‚äº†æ™‚ã«ã™ã‚‹ã‹ã¨ã‹è€ƒãˆã‚‹ã¨è¤‡é›‘ã«ãªã£ãŸã‚Šã™ã‚‹ã€‚
+//		æœ¬å½“ã«å¿…è¦ãªã‚¿ã‚¤ãƒŸãƒ³ã‚°ã§ã‚³ãƒ”ãƒ¼ã‚’ä½œã‚‹ãŸã‚ã«ã“ã®ã‚¯ãƒ©ã‚¹ã‚’ç”¨æ„ã—ãŸã€‚
 class MacroMapContainer
 {
 public:
@@ -123,14 +151,14 @@ class RawReferenceMap
 
 
 
-// ƒvƒŠƒvƒƒZƒX‚µ‚½ƒtƒ@ƒCƒ‹î•ñB
-// .c ‚© .h ‚©‚Í–â‚í‚È‚¢B
-// ~ƒg[ƒNƒ“ƒŠƒXƒg‚Í•Û‚µ‚È‚¢‚Ì‚Å’ˆÓB
+// ãƒ—ãƒªãƒ—ãƒ­ã‚»ã‚¹ã—ãŸãƒ•ã‚¡ã‚¤ãƒ«æƒ…å ±ã€‚
+// .c ã‹ .h ã‹ã¯å•ã‚ãªã„ã€‚
+// Ã—ãƒˆãƒ¼ã‚¯ãƒ³ãƒªã‚¹ãƒˆã¯ä¿æŒã—ãªã„ã®ã§æ³¨æ„ã€‚
 /*
-	ƒg[ƒNƒ“ƒŠƒXƒg‚à•Û‚·‚éBUIColors.h ‚Æ‚©B
+	ãƒˆãƒ¼ã‚¯ãƒ³ãƒªã‚¹ãƒˆã‚‚ä¿æŒã™ã‚‹ã€‚UIColors.h ã¨ã‹ã€‚
 
 
-	“¯–¼ƒtƒ@ƒCƒ‹‚Å‚àA“ü—Íƒ}ƒNƒƒ}ƒbƒv‚Ì“à—e‚ªˆá‚¦‚Îˆá‚¤ƒCƒ“ƒXƒ^ƒ“ƒX‚ğì‚éB
+	åŒåãƒ•ã‚¡ã‚¤ãƒ«ã§ã‚‚ã€å…¥åŠ›ãƒã‚¯ãƒ­ãƒãƒƒãƒ—ã®å†…å®¹ãŒé•ãˆã°é•ã†ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’ä½œã‚‹ã€‚
 */
 class PreprocessedFileCacheItem
 {
@@ -142,7 +170,7 @@ public:
 	RawReferenceMap	outputRawReferenceMap;
 
 public:
-	SourceRange SaveMacroTokens(const Token* begin, const Token* end);	// ƒLƒƒƒbƒVƒ…‚É•Û‘¶‚·‚é‚ÆÄ”z’u‚Ì‰Â”\«‚ª‚ ‚é‚Ì‚ÅAŠi”[‚³‚ê‚½êŠ‚Íƒ|ƒCƒ“ƒ^‚Å‚Í‚È‚­ƒCƒ“ƒfƒbƒNƒX‚Å•Ô‚·
+	SourceRange SaveMacroTokens(const Token* begin, const Token* end);	// ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã«ä¿å­˜ã™ã‚‹ã¨å†é…ç½®ã®å¯èƒ½æ€§ãŒã‚ã‚‹ã®ã§ã€æ ¼ç´ã•ã‚ŒãŸå ´æ‰€ã¯ãƒã‚¤ãƒ³ã‚¿ã§ã¯ãªãã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã§è¿”ã™
 	void GetMacroTokens(const SourceRange& range, const Token** outBegin, const Token** outEnd) const;
 
 private:
@@ -157,7 +185,7 @@ public:
 
 
 /**
-	@brief	CompileUnit 1‚Â•ª‚ÌƒvƒŠƒvƒƒZƒX‚Ìó‘ÔŠÇ—‚ğs‚¤B
+	@brief	CompileUnit 1ã¤åˆ†ã®ãƒ—ãƒªãƒ—ãƒ­ã‚»ã‚¹ã®çŠ¶æ…‹ç®¡ç†ã‚’è¡Œã†ã€‚
 */
 class PreprocessContext
 {
@@ -166,16 +194,16 @@ class PreprocessContext
 
 	
 /**
-	@brief	ƒtƒ@ƒCƒ‹1‚Â•ª‚ÌƒvƒŠƒvƒƒZƒX‚ğs‚¤B
+	@brief	ãƒ•ã‚¡ã‚¤ãƒ«1ã¤åˆ†ã®ãƒ—ãƒªãƒ—ãƒ­ã‚»ã‚¹ã‚’è¡Œã†ã€‚
 	
-	.cpp ‚â .h ‚Ğ‚Æ‚Â•ªBƒwƒbƒ_ƒtƒ@ƒCƒ‹‚à1‚Â•ªB
+	.cpp ã‚„ .h ã²ã¨ã¤åˆ†ã€‚ãƒ˜ãƒƒãƒ€ãƒ•ã‚¡ã‚¤ãƒ«ã‚‚1ã¤åˆ†ã€‚
 */
 class Preprocessor
 {
 public:
 	Preprocessor();
 
-	// w’è‚·‚é MacroMap ‚ÍŠJn“_‚Ìƒ}ƒNƒ’è‹`ó‘Ô
+	// æŒ‡å®šã™ã‚‹ MacroMap ã¯é–‹å§‹æ™‚ç‚¹ã®ãƒã‚¯ãƒ­å®šç¾©çŠ¶æ…‹
 	ResultState BuildPreprocessedTokenList(
 		Context* ownerContext,
 		CompileUnitFile* compileUnitFile,
@@ -203,26 +231,26 @@ private:
 
 	enum class DirectiveSec
 	{
-		Idle,			// ‰½‚à‚µ‚Ä‚¢‚È‚¢
-		LineHead,		// s“ª‚Å‚ ‚éB‚Ü‚½‚Í‰Šúó‘Ô
-		FindIdent,		// ¯•Êq‚ğ’T‚µ‚Ä‚¢‚é
-		FindLineEnd,	// "#" ‚ğŒ©‚Â‚¯‚½
+		Idle,			// ä½•ã‚‚ã—ã¦ã„ãªã„
+		LineHead,		// è¡Œé ­ã§ã‚ã‚‹ã€‚ã¾ãŸã¯åˆæœŸçŠ¶æ…‹
+		FindIdent,		// è­˜åˆ¥å­ã‚’æ¢ã—ã¦ã„ã‚‹
+		FindLineEnd,	// "#" ã‚’è¦‹ã¤ã‘ãŸ
 	};
 
-	// #if ` #endif ‚Ü‚Å‚Ì”»’èó‘Ô
+	// #if ï½ #endif ã¾ã§ã®åˆ¤å®šçŠ¶æ…‹
 	enum class ConditionalSectionState
 	{
-		None,			// ”»’è‘OAƒZƒNƒVƒ‡ƒ“ŠO
-		Valid,			// —LŒø”»’èƒOƒ‹[ƒv“à
-		Invalid,		// –³Œø”»’èƒOƒ‹[ƒv“à
-		Skip,			// —LŒø–³Œø”»’èI—¹ŒãA#endif‚Ü‚Åskip‰Â”\
+		None,			// åˆ¤å®šå‰ã€ã‚»ã‚¯ã‚·ãƒ§ãƒ³å¤–
+		Valid,			// æœ‰åŠ¹åˆ¤å®šã‚°ãƒ«ãƒ¼ãƒ—å†…
+		Invalid,		// ç„¡åŠ¹åˆ¤å®šã‚°ãƒ«ãƒ¼ãƒ—å†…
+		Skip,			// æœ‰åŠ¹ç„¡åŠ¹åˆ¤å®šçµ‚äº†å¾Œã€#endifã¾ã§skipå¯èƒ½
 	};
 
-	// #if ` #endif ‚Ü‚Å‚Ìî•ñ
+	// #if ï½ #endif ã¾ã§ã®æƒ…å ±
 	struct ConditionalSection
 	{
-		ConditionalSectionState	state = ConditionalSectionState::None;	// #if`#endif ‚Ü‚Å‚ÌŒ»İ‚Ì”»’èó‘Ô
-		bool					elseProcessed = false;					// #elseó•tŒã‚Ítrue(#else`#else–h~‚Ìˆ×)
+		ConditionalSectionState	state = ConditionalSectionState::None;	// #ifï½#endif ã¾ã§ã®ç¾åœ¨ã®åˆ¤å®šçŠ¶æ…‹
+		bool					elseProcessed = false;					// #elseå—ä»˜å¾Œã¯true(#elseï½#elseé˜²æ­¢ã®ç‚º)
 	};
 
 	Context*					m_ownerContext;
@@ -237,10 +265,10 @@ private:
 	DiagnosticsItemSet*			m_diag;
 
 	DirectiveSec				m_seqDirective;
-	Stack<ConditionalSection>	m_conditionalSectionStack;	// #if ` #endif ‚Ü‚Å‚Ìî•ñ‚ÌƒXƒ^ƒbƒN
-	Token*						m_preproLineHead;			// # ‚ÌŸ‚Ìƒg[ƒNƒ“‚ğw‚µ‚Ä‚¢‚é
+	Stack<ConditionalSection>	m_conditionalSectionStack;	// #if ï½ #endif ã¾ã§ã®æƒ…å ±ã®ã‚¹ã‚¿ãƒƒã‚¯
+	Token*						m_preproLineHead;			// # ã®æ¬¡ã®ãƒˆãƒ¼ã‚¯ãƒ³ã‚’æŒ‡ã—ã¦ã„ã‚‹
 
-	TokenList					m_preproExprTokenList;		// ‘Oˆ—’è”®‚Ìƒg[ƒNƒ“‚ğ“WŠJ‚·‚éì‹Æ—Ìˆæ
+	TokenList					m_preproExprTokenList;		// å‰å‡¦ç†å®šæ•°å¼ã®ãƒˆãƒ¼ã‚¯ãƒ³ã‚’å±•é–‹ã™ã‚‹ä½œæ¥­é ˜åŸŸ
 	RpnParser					m_rpnParser;
 	RpnEvaluator				m_rpnEvaluator;
 
