@@ -55,7 +55,8 @@ Token::~Token()
 const flChar* Token::GetBegin() const
 {
 	LN_FAIL_CHECK_STATE(m_ownerFile != nullptr) return nullptr;
-	return (const flChar*)m_ownerFile->GetCodeBuffer()->GetConstData();
+	const flChar* begin = (const flChar*)m_ownerFile->GetCodeBuffer()->GetConstData();
+	return begin + m_locBegin;
 }
 
 //------------------------------------------------------------------------------

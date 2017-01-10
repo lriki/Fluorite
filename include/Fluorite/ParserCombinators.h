@@ -1,5 +1,5 @@
-/*
-	ˆê”ÔƒVƒ“ƒvƒ‹
+ï»¿/*
+	ä¸€ç•ªã‚·ãƒ³ãƒ—ãƒ«
 		static Result<Data> Statement(ParserContext& parser)
 		{
 			auto t1 = parser.Eval(Token(ln::parser::CommonTokenType::Identifier));
@@ -8,7 +8,7 @@
 			auto t4 = parser.Eval(Token(ln::parser::CommonTokenType::Operator));
 			return parser.Success(Data{ t1.ToString(), t3.ToString() }, parser.GetPosition());
 		}
-	ª‚Ì‚ğ‚¿‚á‚ñ‚Æ‚µ‚½ Parser ‚ğ•Ô‚·‚æ‚¤‚É‚µ‚½‚à‚Ì
+	â†‘ã®ã‚’ã¡ã‚ƒã‚“ã¨ã—ãŸ Parser ã‚’è¿”ã™ã‚ˆã†ã«ã—ãŸã‚‚ã®
 		static Parser<Data> Statement(ParserContext& parser)
 		{
 			return [](ParserContext& parser)
@@ -20,7 +20,7 @@
 				return parser.Success(Data{ t1.ToString(), t3.ToString() }, parser.GetPosition());
 			};
 		}
-	–{“–‚ÉŠÖ”Œ^‚Á‚Û‚­‚·‚é‚È‚ç‚±‚¤‚È‚é 1
+	æœ¬å½“ã«é–¢æ•°å‹ã£ã½ãã™ã‚‹ãªã‚‰ã“ã†ãªã‚‹ 1
 		static Parser<Data> Statement(ParserContext& parser)
 		{
 			Parser<Token> p, t1, t2, t3, t4;
@@ -31,8 +31,8 @@
 			return [p, t1, t3](ParserContext& parser) { return p(parser).Then( Data(t1.GetValue, t2.GetValue()) ) };
 		}
 	
-	–{“–‚ÉŠÖ”Œ^‚Á‚Û‚­‚·‚é‚È‚ç‚±‚¤‚È‚é 2
-		static Parser<Data> Statement(ParserContext& parser)	// ’l“n‚µ‚É‚·‚é‚©AŒÄ‚Ño‚µŒ³‚ğ DoParse ‚Æ‚©1‚Â‚©‚Ü‚¹‚È‚¢‚Æ‚¾‚ß
+	æœ¬å½“ã«é–¢æ•°å‹ã£ã½ãã™ã‚‹ãªã‚‰ã“ã†ãªã‚‹ 2
+		static Parser<Data> Statement(ParserContext& parser)	// å€¤æ¸¡ã—ã«ã™ã‚‹ã‹ã€å‘¼ã³å‡ºã—å…ƒã‚’ DoParse ã¨ã‹1ã¤ã‹ã¾ã›ãªã„ã¨ã ã‚
 		{
 			return
 				(parser[0] = Token(ln::parser::CommonTokenType::Identifier))
@@ -42,7 +42,7 @@
 			->	[](ParserContext& parser) { return Data(parser[0].GetValue(), parser[1].GetValue()) };
 		}
 	
-	ˆê”ÔƒVƒ“ƒvƒ‹‚È‚Ì‚ğƒ}ƒNƒg‚¤‚æ‚¤‚É‚·‚é‚ÆA—áŠOlongjmp‚µ‚È‚­‚ÄÏ‚Ş
+	ä¸€ç•ªã‚·ãƒ³ãƒ—ãƒ«ãªã®ã‚’ãƒã‚¯ãƒ­ä½¿ã†ã‚ˆã†ã«ã™ã‚‹ã¨ã€ä¾‹å¤–longjmpã—ãªãã¦æ¸ˆã‚€
 		static Result<Data> Statement(ParserContext& parser)
 		{
 			LN_PARSE(t1, Token(ln::parser::CommonTokenType::Identifier));
@@ -63,7 +63,7 @@
 
 #define LN_PARSE_RESULT(result, parser) \
 	auto result = (parser)(input); \
-	if (result.IsFailed()) return input.Fail(result##_); \
+	if (result.IsFailed()) return input.Fail(result); \
 	input.Next(result);
 
 //#define LN_PARSE_SUCCESS(value)	\
@@ -90,11 +90,11 @@ public:
 } // namespace detail
 
 
-// ParserResult ‚ÌŒˆ‚Ü‚è‚²‚Æ
-//	- ¬”Û (true/false) ‚ğ‚Â
-//	- ’l‚ğ‚Â (¸”s‚Ìê‡‚Í•s³’l)
-//	- Ÿ‚Ì“Ç‚İæ‚èˆÊ’u‚ğ‚Â (remainder)
-// T ‚Íƒp[ƒTŠÖ”‚Ì–ß‚·’l
+// ParserResult ã®æ±ºã¾ã‚Šã”ã¨
+//	- æˆå¦ (true/false) ã‚’æŒã¤
+//	- å€¤ã‚’æŒã¤ (å¤±æ•—ã®å ´åˆã¯ä¸æ­£å€¤)
+//	- æ¬¡ã®èª­ã¿å–ã‚Šä½ç½®ã‚’æŒã¤ (remainder)
+// T ã¯ãƒ‘ãƒ¼ã‚µé–¢æ•°ã®æˆ»ã™å€¤
 template<typename T, typename TCursor>
 class GenericParserResult
 {
@@ -109,7 +109,7 @@ public:
 	}
 
 	const T& GetValue() const { return m_value; }
-	const TCursor& GetRemainder() const { return m_remainder; }	// •]‰¿Œã‚ÌŸ‚Ì“Ç‚İæ‚èˆÊ’u
+	const TCursor& GetRemainder() const { return m_remainder; }	// è©•ä¾¡å¾Œã®æ¬¡ã®èª­ã¿å–ã‚Šä½ç½®
 	int GetRemainderPosition() const { return m_remainder.GetPosition(); }
 	bool IsSucceed() const { return m_isSuccess; }
 	bool IsFailed() const { return !m_isSuccess; }
@@ -117,7 +117,7 @@ public:
 	int GetMatchEnd() const { return m_matchEnd; }
 	const flString& GetMessage() const { return m_message; }
 
-	// Parser ŠÖ”‚Ì return ‚Å Fail() ‚É‚æ‚Á‚ÄAParse ¸”s‚Å‚ ‚é‚±‚Æ‚ğ“`‚¦AValue ‚ğÌ‚Ä‚é‚½‚ß‚Ég‚¤
+	// Parser é–¢æ•°ã® return ã§ Fail() ã«ã‚ˆã£ã¦ã€Parse å¤±æ•—ã§ã‚ã‚‹ã“ã¨ã‚’ä¼ãˆã€Value ã‚’æ¨ã¦ã‚‹ãŸã‚ã«ä½¿ã†
 	GenericParserResult(const detail::ParserFailure<TCursor>& failer)
 		: m_value()
 		, m_matchBegin(0)
@@ -193,19 +193,21 @@ template<typename TTokenFilter = ParserCursorConditional::Always>
 class GenericParserCursor
 {
 public:
+	using FilterType = TTokenFilter;
+
 	GenericParserCursor()
 		: m_tokenList(nullptr)
 		, m_position(0)
 	{}
 
-	// ƒp[ƒXŠJn‚Ì‰Šú‰»—p
+	// ãƒ‘ãƒ¼ã‚¹é–‹å§‹æ™‚ã®åˆæœŸåŒ–ç”¨
 	GenericParserCursor(const TokenList* tokenList)
 		: m_tokenList(tokenList)
 		, m_position(0)
 	{
 	}
 
-	// ƒp[ƒXŠJn‚Ì‰Šú‰»—p
+	// ãƒ‘ãƒ¼ã‚¹é–‹å§‹æ™‚ã®åˆæœŸåŒ–ç”¨
 	GenericParserCursor(const TokenList* tokenList, int position)
 		: m_tokenList(tokenList)
 		, m_position(position)
@@ -307,7 +309,7 @@ public:
 
 	int GetLastMatchEndPosition() const
 	{
-		return m_last.GetPosition() + 1;	// ÅŒã‚Ìƒ}ƒbƒ`ˆÊ’u‚ÌŸ
+		return m_last.GetPosition() + 1;	// æœ€å¾Œã®ãƒãƒƒãƒä½ç½®ã®æ¬¡
 	}
 
 	const TCursor& GetCurrentCursor() const
@@ -353,7 +355,7 @@ public:
 
 	GenericParser operator||(const GenericParser& second) const
 	{
-		return ParseLib<TCursor>::Or(*this, second);
+		return ParseLib<TCursor::FilterType>::Or(*this, second);
 	}
 };
 
@@ -377,7 +379,7 @@ public:
 	using ParserCursor = GenericParserCursor<TTokenFilter>;
 
 
-	/** w’è‚µ‚½1•¶š‚Ìƒg[ƒNƒ“‚Éƒ}ƒbƒ`‚·‚é */
+	/** æŒ‡å®šã—ãŸ1æ–‡å­—ã®ãƒˆãƒ¼ã‚¯ãƒ³ã«ãƒãƒƒãƒã™ã‚‹ */
 	static Parser<ValueT> TokenChar(char ch)
 	{
 		return [ch](ParserContext input)
@@ -394,9 +396,10 @@ public:
 		String str = str_;
 		return [str](ParserContext input)
 		{
-			if (input.GetCurrentValue().EqualString(str.c_str(), str.GetLength()))
-				return ParserResult<ValueT>::Success(input.GetCurrentValue(), input.GetStartPosition(), input.GetStartPosition() + 1, input.GetNext());
-			return ParserResult<ValueT>::Fail(input.GetCurrentCursor());	// TODO: ƒƒbƒZ[ƒW‚ ‚é‚Æ‚æ‚¢
+			auto& tok = input.GetCurrentValue();
+			if (tok.EqualString(str.c_str(), str.GetLength()))
+				return ParserResult<ValueT>::Success(tok, input.GetStartPosition(), input.GetStartPosition() + 1, input.GetNext());
+			return ParserResult<ValueT>::Fail(input.GetCurrentCursor(), flString::Format("Unexpected token \"{0}\". expected \"{1}\"", tok.GetString(), str));
 		};
 	}
 
@@ -406,7 +409,7 @@ public:
 		{
 			if (input.GetCurrentValue().GetCommonType() == type)
 				return ParserResult<ValueT>::Success(input.GetCurrentValue(), input.GetStartPosition(), input.GetStartPosition() + 1, input.GetNext());
-			return ParserResult<ValueT>::Fail(input.GetCurrentCursor());	// TODO: ƒƒbƒZ[ƒW‚ ‚é‚Æ‚æ‚¢
+			return ParserResult<ValueT>::Fail(input.GetCurrentCursor());	// TODO: ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚ã‚‹ã¨ã‚ˆã„
 		};
 	}
 
@@ -430,20 +433,20 @@ public:
 		};
 	}
 
-	// 0‰ñˆÈã‚ÌŒJ‚è•Ô‚µ
+	// 0å›ä»¥ä¸Šã®ç¹°ã‚Šè¿”ã—
 	template<typename T>
 	static Parser<List<T>> Many(const Parser<T>& parser)
 	{
 		return [parser](ParserContext input)
 		{
 			List<T> list;
-			auto r = parser.Call(input);
+			auto r = parser(input);
 			//input = r.GetRemainder();
 
 			while (r.IsSucceed())
 			{
 				list.Add(r.GetValue());
-				r = parser.Call(r.GetRemainder());
+				r = parser(r.GetRemainder());
 				//input = r.GetRemainder();
 			}
 			return ParserResult<List<T>>::Success(list, input.GetStartPosition(), r.GetMatchEnd(), r.GetRemainder());
@@ -456,10 +459,10 @@ public:
 		//Parser<T> second(second_);
 		return [first, second](ParserContext input)
 		{
-			auto fr = first.Call(input);
+			auto fr = first(input);
 			if (fr.IsFailed())
 			{
-				return second.Call(input);
+				return second(input);
 			}
 			return fr;
 		};
@@ -479,25 +482,25 @@ public:
 		};
 	}
 
-	// term ‚Ü‚Å‚ğƒ}ƒbƒ`‚Ì”ÍˆÍ‚Æ‚µA
-	// ƒ^[ƒ~ƒl[ƒ^‚ğ result ‚ÉŠÜ‚Ş
+	// term ã¾ã§ã‚’ãƒãƒƒãƒã®ç¯„å›²ã¨ã—ã€
+	// ã‚¿ãƒ¼ãƒŸãƒãƒ¼ã‚¿ã‚’ result ã«å«ã‚€
 	template<typename T>
 	static Parser<List<T>> UntilMore(const Parser<T>& term)
 	{
 		return [term](ParserContext input)
 		{
 			List<T> list;
-			auto r = term.Call(input);
+			auto r = term(input);
 			auto lastResult = r;
 
 			while (r.IsFailed())
 			{
 				list.Add(r.GetValue());
 				lastResult = r;
-				r = term.Call(r.GetRemainder().Advance());
+				r = term(r.GetRemainder().Advance());
 			}
 
-			// TODO: ƒXƒgƒŠ[ƒ€––”ö‚Ü‚Åfailed‚¾‚Á‚½‚çƒp[ƒX¸”s
+			// TODO: ã‚¹ãƒˆãƒªãƒ¼ãƒ æœ«å°¾ã¾ã§failedã ã£ãŸã‚‰ãƒ‘ãƒ¼ã‚¹å¤±æ•—
 
 			return ParserResult<List<T>>::Success(list, input.GetStartPosition(), r.GetMatchEnd(), r.GetRemainder());
 		};
@@ -518,6 +521,12 @@ public:
 		ParserResult<T> result = parser(input.Cuing());
 		return result;
 	}
+
+
+	static bool FilterToken(const fl::Token& token)
+	{
+		return true;
+	}
 };
 
 
@@ -530,7 +539,7 @@ public:
 //			token.EqualString("sampler_state", 13) ||
 //			token.EqualString("technique", 9) ||
 //			token.EqualString("pass", 4) ||
-//			token.IsEof();	// TODO: ‚±‚ê‚ª–³‚­‚Ä‚à‚¢‚¢‚æ‚¤‚É‚µ‚½‚¢B¡‚Í‚±‚ê‚ª‚È‚¢‚ÆAMany’†‚ÉEOF‚µ‚½‚Æ‚«OutOfRange‚·‚é
+//			token.IsEof();	// TODO: ã“ã‚ŒãŒç„¡ãã¦ã‚‚ã„ã„ã‚ˆã†ã«ã—ãŸã„ã€‚ä»Šã¯ã“ã‚ŒãŒãªã„ã¨ã€Manyä¸­ã«EOFã—ãŸã¨ãOutOfRangeã™ã‚‹
 //	}
 //};
 //
