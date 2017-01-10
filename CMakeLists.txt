@@ -15,6 +15,7 @@ set(LN_FL_SOURCES_Common
 	include/Fluorite/Diagnostics.h
 	include/Fluorite/Entity.h
 	include/Fluorite/EntityDatabase.h
+	include/Fluorite/ParserCombinators.h
 	include/Fluorite/Token.h
 	include/Fluorite/Reference.h
 	include/Fluorite/TranslationUnit.h

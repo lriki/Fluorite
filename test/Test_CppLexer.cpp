@@ -13,12 +13,6 @@ protected:
 	AnalyzerContext	m_context;
 };
 
-#define DO_LEX(code) \
-	AnalyzerContext ctx; \
-	auto file = ctx.RegisterInputMemoryCode("test", code); \
-	ctx.LexFile(file); \
-	auto tokens = file->GetTokenList(); \
-
 	
 
 //------------------------------------------------------------------------------

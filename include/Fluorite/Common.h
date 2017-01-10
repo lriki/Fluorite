@@ -17,6 +17,7 @@ using namespace ln;		// TODO: あとで消す
 using flChar = char;
 using flStringArray = ln::StringArrayA;
 using flString = ln::StringA;
+using flStringRef = ln::StringRefA;
 
 namespace fl {
 	

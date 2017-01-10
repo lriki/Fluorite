@@ -5,6 +5,7 @@ set(LN_TEST_SOURCES
 	TestConfig.h
 	Test_CppLexer.cpp
 	#Test_Parser_Preprocessor.cpp
+	Test_ParserCombinators.cpp
 	Test_Rpn.cpp
 )
 

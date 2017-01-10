@@ -49,6 +49,7 @@ AbstractLexer::~AbstractLexer()
 ResultState AbstractLexer::Tokenize(InputFile* file)
 {
 	assert(file != nullptr);
+	m_inputFile = file;
 	return Tokenize(file->GetCodeBuffer(), file->GetTokenListInternal(), file->GetDiag());
 }
 
@@ -122,7 +123,7 @@ ResultState AbstractLexer::Tokenize(const ByteBuffer* buffer, TokenList* outToke
 	}
 
 	// 最後に EOF を入れておく
-	m_tokenList->Add(Token(TokenGroup::Eof, 0, 0));
+	m_tokenList->Add(Token(m_inputFile, TokenGroup::Eof, 0, 0));
 
 	return ResultState::Success;
 }
@@ -136,7 +137,7 @@ void AbstractLexer::PollingToken(const Token& newToken)
 void AbstractLexer::AddToken(TokenGroup group, const char* bufBegin, const char* bufEnd, int tokenType)
 {
 	const char* begin = (const char*)m_inputBuffer->GetConstData();
-	m_tokenList->Add(Token(group, bufBegin - begin, bufEnd - begin, tokenType));
+	m_tokenList->Add(Token(m_inputFile, group, bufBegin - begin, bufEnd - begin, tokenType));
 }
 
 //------------------------------------------------------------------------------
@@ -144,7 +145,7 @@ bool AbstractLexer::EqualsString(const Token& token, const char* str, int length
 {
 	if (token.GetLength() != length) return false;
 	const char* begin = (const char*)m_inputBuffer->GetConstData();
-	return StringTraits::StrNCmp(begin + token.GetBegin(), str, length) == 0;	// TODO: Case
+	return StringTraits::StrNCmp(begin + token.GetBeginLoc(), str, length) == 0;	// TODO: Case
 }
 
 //------------------------------------------------------------------------------

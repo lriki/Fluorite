@@ -54,6 +54,7 @@ protected:
 	virtual void OnStart();
 
 private:
+	InputFile*			m_inputFile;
 	const ByteBuffer*	m_inputBuffer;
 	TokenList*			m_tokenList;
 	DiagnosticsItemSet*	m_diag;

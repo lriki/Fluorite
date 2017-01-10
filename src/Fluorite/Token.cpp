@@ -12,7 +12,8 @@ namespace fl
 
 //------------------------------------------------------------------------------
 Token::Token()
-	: m_locBegin(0)
+	: m_ownerFile(nullptr)
+	, m_locBegin(0)
 	, m_locEnd(0)
 	, m_firstLineNumber(0)
 	, m_firstColumn(0)
@@ -25,18 +26,20 @@ Token::Token()
 }
 
 //------------------------------------------------------------------------------
-Token::Token(TokenGroup group, SourceLocation locBegin, SourceLocation locEnd)
+Token::Token(InputFile* ownerFile, TokenGroup group, SourceLocation locBegin, SourceLocation locEnd)
 	: Token()
 {
+	m_ownerFile = ownerFile;
 	m_locBegin = locBegin;
 	m_locEnd = locEnd;
 	m_group = group;
 }
 
 //------------------------------------------------------------------------------
-Token::Token(TokenGroup group, SourceLocation locBegin, SourceLocation locEnd, int tokenType)
+Token::Token(InputFile* ownerFile, TokenGroup group, SourceLocation locBegin, SourceLocation locEnd, int tokenType)
 	: Token()
 {
+	m_ownerFile = ownerFile;
 	m_locBegin = locBegin;
 	m_locEnd = locEnd;
 	m_group = group;
@@ -46,6 +49,19 @@ Token::Token(TokenGroup group, SourceLocation locBegin, SourceLocation locEnd, i
 //------------------------------------------------------------------------------
 Token::~Token()
 {
+}
+
+//------------------------------------------------------------------------------
+const flChar* Token::GetBegin() const
+{
+	LN_FAIL_CHECK_STATE(m_ownerFile != nullptr) return nullptr;
+	return (const flChar*)m_ownerFile->GetCodeBuffer()->GetConstData();
+}
+
+//------------------------------------------------------------------------------
+const flChar* Token::GetEnd() const
+{
+	return GetBegin() + GetLength();
 }
 
 //------------------------------------------------------------------------------
@@ -60,6 +76,27 @@ StringA Token::GetString(InputFile* file) const
 {
 	const flChar* begin = (const flChar*)file->GetCodeBuffer()->GetConstData();
 	return StringA(begin + m_locBegin, m_locEnd - m_locBegin);
+}
+
+//------------------------------------------------------------------------------
+flString Token::GetString() const
+{
+	const flChar* begin = (const flChar*)m_ownerFile->GetCodeBuffer()->GetConstData();
+	return flString(begin + m_locBegin, m_locEnd - m_locBegin);
+}
+
+//------------------------------------------------------------------------------
+bool Token::EqualString(const char* str, int len) const
+{
+	if (GetLength() != len) return false;
+	return StringTraits::StrNCmp(GetBegin(), str, len) == 0;	// TODO: Case
+}
+
+//------------------------------------------------------------------------------
+bool Token::EqualChar(char ch) const
+{
+	if (GetLength() != 1) return false;
+	return *GetBegin() == ch;	// TODO: Case
 }
 
 } // namespace fl

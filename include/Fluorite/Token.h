@@ -18,8 +18,8 @@ public:
 	Token& operator = (const Token& src) = default;
 	~Token();
 
-	Token(TokenGroup group, SourceLocation locBegin, SourceLocation locEnd);
-	Token(TokenGroup group, SourceLocation locBegin, SourceLocation locEnd, int tokenType);
+	Token(InputFile* ownerFile, TokenGroup group, SourceLocation locBegin, SourceLocation locEnd);
+	Token(InputFile* ownerFile, TokenGroup group, SourceLocation locBegin, SourceLocation locEnd, int tokenType);
 
 	TokenGroup GetTokenGroup() const { return m_group; }
 
@@ -27,8 +27,11 @@ public:
 	int GetTokenType() const { return m_tokenType; }
 
 	int GetLength() const { return m_locEnd - m_locBegin; }
-	SourceLocation GetBegin() const { return m_locBegin; }
-	SourceLocation GetEnd() const { return m_locEnd; }
+	SourceLocation GetBeginLoc() const { return m_locBegin; }
+	SourceLocation GetEndLoc() const { return m_locEnd; }
+
+	const flChar* GetBegin() const;
+	const flChar* GetEnd() const;
 
 	int GetFirstLineNumber() const { return m_firstLineNumber; }
 	int GetFirstColumn() const { return m_firstColumn; }
@@ -37,6 +40,15 @@ public:
 
 	const flChar* GetCStr(InputFile* file) const;	// not null terminator
 	StringA GetString(InputFile* file) const;
+	flString GetString() const;
+
+
+	/** 文字列が一致するか */
+	bool EqualString(const char* str, int len = -1) const;
+
+	/** 文字が一致するか */
+	bool EqualChar(char ch) const;
+
 
 LN_INTERNAL_ACCESS:
 	void SetFirstLineNumber(int lineNumber) { m_firstLineNumber = lineNumber; }
@@ -45,6 +57,7 @@ LN_INTERNAL_ACCESS:
 	void SetLastColumn(int column) { m_lastColumn = column; }
 
 private:
+	InputFile*		m_ownerFile;		// コレが無いと文字列の取出しがものすごく面倒になる。効率より使いやすさ優先。
 
 	// ポインタではなくオフセット値とし、シリアライズに備える
 	SourceLocation	m_locBegin;			// トークンの開始位置

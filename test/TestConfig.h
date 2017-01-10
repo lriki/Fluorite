@@ -10,3 +10,10 @@ using namespace ln;
 #include <Fluorite/AnalyzerContext.h>
 #include <Fluorite/Diagnostics.h>
 using namespace fl;
+
+#define DO_LEX(code) \
+	AnalyzerContext ctx; \
+	auto file = ctx.RegisterInputMemoryCode("test", code); \
+	ctx.LexFile(file); \
+	auto tokens = file->GetTokenList(); \
+
