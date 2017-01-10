@@ -177,8 +177,12 @@ struct ParserCursorConditional
 {
 	struct Always
 	{
-		template<typename T>
-		bool operator()(const T& value)
+		//template<typename T>
+		//bool operator()(const T& value)
+		//{
+		//	return true;
+		//}
+		static bool FilterToken(const Token& value)
 		{
 			return true;
 		}
@@ -233,9 +237,8 @@ public:
 
 	GenericParserCursor Cuing() const
 	{
-		TTokenFilter cond;
 		int pos = m_position;
-		while (!cond(m_tokenList->GetAt(pos)))
+		while (!TTokenFilter::FilterToken(m_tokenList->GetAt(pos)))
 		{
 			++pos;
 		};
@@ -249,12 +252,11 @@ public:
 			LN_THROW(0, ln::InvalidOperationException, "end of source.");
 		}
 
-		TTokenFilter cond;
 		int pos = m_position;
 		do
 		{
 			++pos;
-		} while (pos < m_tokenList->GetCount() && !cond(m_tokenList->GetAt(pos)));
+		} while (pos < m_tokenList->GetCount() && !TTokenFilter::FilterToken(m_tokenList->GetAt(pos)));
 
 		return GenericParserCursor(m_tokenList, pos);
 	}
