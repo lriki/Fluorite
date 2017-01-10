@@ -407,9 +407,10 @@ public:
 	{
 		return [type](ParserContext input)
 		{
-			if (input.GetCurrentValue().GetCommonType() == type)
-				return ParserResult<ValueT>::Success(input.GetCurrentValue(), input.GetStartPosition(), input.GetStartPosition() + 1, input.GetNext());
-			return ParserResult<ValueT>::Fail(input.GetCurrentCursor());	// TODO: メッセージあるとよい
+			auto& tok = input.GetCurrentValue();
+			if (tok.GetTokenGroup() == type)
+				return ParserResult<ValueT>::Success(tok, input.GetStartPosition(), input.GetStartPosition() + 1, input.GetNext());
+			return ParserResult<ValueT>::Fail(input.GetCurrentCursor(), flString::Format("Unexpected token group \"{0}\". expected \"{1}\"", (int)tok.GetTokenGroup(), (int)type));
 		};
 	}
 
