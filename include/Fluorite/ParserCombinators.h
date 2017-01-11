@@ -198,25 +198,36 @@ public:
 	GenericParserCursor()
 		: m_tokenList(nullptr)
 		, m_position(0)
+		, m_end(0)
 	{}
 
 	// パース開始時の初期化用
 	GenericParserCursor(const TokenList* tokenList)
 		: m_tokenList(tokenList)
 		, m_position(0)
+		, m_end(tokenList->GetCount())
 	{
 	}
 
 	// パース開始時の初期化用
+	GenericParserCursor(const TokenList* tokenList, int begin, int end)
+		: m_tokenList(tokenList)
+		, m_position(begin)
+		, m_end(end)
+	{
+	}
+	
 	GenericParserCursor(const TokenList* tokenList, int position)
 		: m_tokenList(tokenList)
 		, m_position(position)
+		, m_end(tokenList->GetCount())
 	{
 	}
 
 	GenericParserCursor(const GenericParserCursor& obj)
 		: m_tokenList(obj.m_tokenList)
 		, m_position(obj.m_position)
+		, m_end(obj.m_end)
 	{
 	}
 
@@ -224,6 +235,7 @@ public:
 	{
 		m_tokenList = obj.m_tokenList;
 		m_position = obj.m_position;
+		m_end = obj.m_end;
 		return *this;
 	}
 
@@ -244,12 +256,12 @@ public:
 		{
 			++pos;
 		};
-		return GenericParserCursor(m_tokenList, pos);
+		return GenericParserCursor(m_tokenList, pos, m_end);
 	}
 
 	GenericParserCursor Advance() const
 	{
-		if (m_position == m_tokenList->GetCount())
+		if (m_position == m_end)
 		{
 			LN_THROW(0, ln::InvalidOperationException, "end of source.");
 		}
@@ -258,14 +270,15 @@ public:
 		do
 		{
 			++pos;
-		} while (pos < m_tokenList->GetCount() && !TTokenFilter::FilterToken(m_tokenList->GetAt(pos)));
+		} while (pos < m_end && !TTokenFilter::FilterToken(m_tokenList->GetAt(pos)));
 
-		return GenericParserCursor(m_tokenList, pos);
+		return GenericParserCursor(m_tokenList, pos, m_end);
 	}
 
 private:
 	const TokenList*	m_tokenList;
 	int					m_position;
+	int					m_end;
 };
 
 
