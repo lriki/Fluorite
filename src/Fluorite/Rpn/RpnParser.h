@@ -141,7 +141,7 @@ class RpnTokenList
 class RpnParser
 {
 public:
-	typedef List<Token>::const_iterator Position;
+	typedef List<Token*>::const_iterator Position;
 
 public:
 	// TODO: RefPtr

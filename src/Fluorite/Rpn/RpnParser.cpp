@@ -262,7 +262,7 @@ void RpnParser::TokenizeCppConst(Position exprBegin, Position exprEnd)
 
 	for (; pos != exprEnd; ++pos)
 	{
-		switch (pos->GetTokenGroup())
+		switch ((*pos)->GetTokenGroup())
 		{
 		case TokenGroup::SpaceSequence:
 		case TokenGroup::NewLine:
@@ -273,14 +273,14 @@ void RpnParser::TokenizeCppConst(Position exprBegin, Position exprEnd)
 		{
 			RpnToken token;
 			token.Type = RPN_TT_Identifier;
-			token.SourceToken = &(*pos);
+			token.SourceToken = (*pos);
 			m_tokenList->Add(token);
 			break;
 		}
 		case TokenGroup::ArithmeticLiteral:
 		{
 			RpnToken token;
-			switch (pos->GetTokenType())
+			switch ((*pos)->GetTokenType())
 			{
 			case TT_NumericLitaralType_Char:		token.Type = RPN_TT_NumericLitaral_Int32; break;
 			case TT_NumericLitaralType_WideChar:	token.Type = RPN_TT_NumericLitaral_Int32; break;
@@ -294,7 +294,7 @@ void RpnParser::TokenizeCppConst(Position exprBegin, Position exprEnd)
 				m_diag->Report(DiagnosticsCode::RpnEvaluator_InvalidNumericType);
 				return;	// TODO: Result
 			}
-			token.SourceToken = &(*pos);
+			token.SourceToken = (*pos);
 			m_tokenList->Add(token);
 			break;
 		}
@@ -408,7 +408,7 @@ void RpnParser::TokenizeCppConst(Position exprBegin, Position exprEnd)
 			assert(LN_ARRAY_SIZE_OF(TokenInfoTable) == RPN_TT_Max);
 
 			RpnToken token;
-			token.Type = CppTypeToRPNType[pos->GetTokenType() - TT_CppOP_SeparatorBegin];
+			token.Type = CppTypeToRPNType[(*pos)->GetTokenType() - TT_CppOP_SeparatorBegin];
 
 			// ( かつひとつ前が識別子の場合は関数呼び出しとする
 			if (token.Type == RPN_TT_OP_GroupStart &&
@@ -437,7 +437,7 @@ void RpnParser::TokenizeCppConst(Position exprBegin, Position exprEnd)
 
 				token.Precedence = TokenInfoTable[token.Type].Precedence;
 				token.Association = TokenInfoTable[token.Type].Association;
-				token.SourceToken = &(*pos);
+				token.SourceToken = (*pos);
 				m_tokenList->Add(token);
 			}
 			break;
@@ -445,16 +445,16 @@ void RpnParser::TokenizeCppConst(Position exprBegin, Position exprEnd)
 		case TokenGroup::Keyword:
 		{
 			RpnToken token;
-			if (pos->GetTokenType() == TT_CppKW_true)
+			if ((*pos)->GetTokenType() == TT_CppKW_true)
 			{
 				token.Type = RPN_TT_NumericLitaral_True;
-				token.SourceToken = &(*pos);
+				token.SourceToken = (*pos);
 				m_tokenList->Add(token);
 			}
-			else if (pos->GetTokenType() == TT_CppKW_false)
+			else if ((*pos)->GetTokenType() == TT_CppKW_false)
 			{
 				token.Type = RPN_TT_NumericLitaral_False;
-				token.SourceToken = &(*pos);
+				token.SourceToken = (*pos);
 				m_tokenList->Add(token);
 			}
 			break;

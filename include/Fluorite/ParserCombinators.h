@@ -72,6 +72,8 @@
 namespace fl {
 namespace combinators {
 
+using Iterator = TokenList::const_iterator;
+
 namespace detail {
 
 template<typename TCursor>
@@ -99,13 +101,13 @@ template<typename T, typename TCursor>
 class GenericParserResult
 {
 public:
-	static GenericParserResult<T, TCursor> Success(const T& value, int matchBegin, int matchEnd, const TCursor& remainder)
+	static GenericParserResult<T, TCursor> Success(const T& value, Iterator matchBegin, Iterator matchEnd, const TCursor& remainder)
 	{
 		return GenericParserResult<T, TCursor>(value, matchBegin, matchEnd, remainder, true, flString::GetEmpty());
 	}
 	static GenericParserResult<T, TCursor> Fail(const TCursor& remainder, const flStringRef& message)
 	{
-		return GenericParserResult<T, TCursor>(T(), 0, 0, remainder, false, message);
+		return GenericParserResult<T, TCursor>(T(), remainder, false, message);
 	}
 
 	const T& GetValue() const { return m_value; }
@@ -113,15 +115,15 @@ public:
 	int GetRemainderPosition() const { return m_remainder.GetPosition(); }
 	bool IsSucceed() const { return m_isSuccess; }
 	bool IsFailed() const { return !m_isSuccess; }
-	int GetMatchBegin() const { return m_matchBegin; }
-	int GetMatchEnd() const { return m_matchEnd; }
+	Iterator GetMatchBegin() const { return m_matchBegin; }
+	Iterator GetMatchEnd() const { return m_matchEnd; }
 	const flString& GetMessage() const { return m_message; }
 
 	// Parser 関数の return で Fail() によって、Parse 失敗であることを伝え、Value を捨てるために使う
 	GenericParserResult(const detail::ParserFailure<TCursor>& failer)
 		: m_value()
-		, m_matchBegin(0)
-		, m_matchEnd(0)
+		, m_matchBegin()
+		, m_matchEnd()
 		, m_remainder(failer.remainder)
 		, m_isSuccess(false)
 		, m_message(failer.message)
@@ -129,7 +131,7 @@ public:
 	}
 	
 private:
-	GenericParserResult(const T& value, int matchBegin, int matchEnd, const TCursor& remainder, bool isSuccess, const flStringRef& message)
+	GenericParserResult(const T& value, Iterator matchBegin, Iterator matchEnd, const TCursor& remainder, bool isSuccess, const flStringRef& message)
 		: m_value(value)
 		, m_matchBegin(matchBegin)
 		, m_matchEnd(matchEnd)
@@ -138,10 +140,19 @@ private:
 		, m_message(message)
 	{
 	}
+	GenericParserResult(const T& value, const TCursor& remainder, bool isSuccess, const flStringRef& message)
+		: m_value(value)
+		, m_matchBegin()
+		, m_matchEnd()
+		, m_remainder(remainder)
+		, m_isSuccess(isSuccess)
+		, m_message(message)
+	{
+	}
 
 	T			m_value;
-	int			m_matchBegin;
-	int			m_matchEnd;
+	Iterator			m_matchBegin;
+	Iterator			m_matchEnd;
 	TCursor		m_remainder;
 	bool		m_isSuccess;
 	flString	m_message;
@@ -182,7 +193,7 @@ struct ParserCursorConditional
 		//{
 		//	return true;
 		//}
-		static bool FilterToken(const Token& value)
+		static bool FilterToken(Token* value)
 		{
 			return true;
 		}
@@ -196,89 +207,86 @@ public:
 	using FilterType = TTokenFilter;
 
 	GenericParserCursor()
-		: m_tokenList(nullptr)
-		, m_position(0)
-		, m_end(0)
+		: m_current()
+		, m_end()
 	{}
 
 	// パース開始時の初期化用
 	GenericParserCursor(const TokenList* tokenList)
-		: m_tokenList(tokenList)
-		, m_position(0)
-		, m_end(tokenList->GetCount())
+		: m_current(tokenList->begin())
+		, m_end(tokenList->end())
 	{
 	}
 
 	// パース開始時の初期化用
-	GenericParserCursor(const TokenList* tokenList, int begin, int end)
-		: m_tokenList(tokenList)
-		, m_position(begin)
+	GenericParserCursor(const Iterator& begin, const Iterator& end)
+		: m_current(begin)
 		, m_end(end)
 	{
 	}
 	
-	GenericParserCursor(const TokenList* tokenList, int position)
-		: m_tokenList(tokenList)
-		, m_position(position)
-		, m_end(tokenList->GetCount())
-	{
-	}
+	//GenericParserCursor(const TokenList* tokenList, int position)
+	//	: m_tokenList(tokenList)
+	//	, m_position(position)
+	//	, m_end(tokenList->GetCount())
+	//{
+	//}
 
 	GenericParserCursor(const GenericParserCursor& obj)
-		: m_tokenList(obj.m_tokenList)
-		, m_position(obj.m_position)
+		: m_current(obj.m_current)
 		, m_end(obj.m_end)
 	{
 	}
 
 	GenericParserCursor& operator=(const GenericParserCursor& obj)
 	{
-		m_tokenList = obj.m_tokenList;
-		m_position = obj.m_position;
+		m_current = obj.m_current;
 		m_end = obj.m_end;
 		return *this;
 	}
 
-	const Token& GetCurrentValue() const
+	Token* GetCurrentValue() const
 	{
-		return m_tokenList->GetAt(m_position);
+		return *m_current;
 	}
 
-	int GetPosition() const
+	Iterator GetPosition() const
 	{
-		return m_position;
+		return m_current;
 	}
 
 	GenericParserCursor Cuing() const
 	{
-		int pos = m_position;
-		while (!TTokenFilter::FilterToken(m_tokenList->GetAt(pos)))
+		auto pos = m_current;
+		while (!TTokenFilter::FilterToken(*pos))
 		{
 			++pos;
 		};
-		return GenericParserCursor(m_tokenList, pos, m_end);
+		return GenericParserCursor(pos, m_end);
 	}
 
 	GenericParserCursor Advance() const
 	{
-		if (m_position == m_end)
+		if (m_current == m_end)
 		{
 			LN_THROW(0, ln::InvalidOperationException, "end of source.");
 		}
 
-		int pos = m_position;
+		auto pos = m_current;
 		do
 		{
 			++pos;
-		} while (pos < m_end && !TTokenFilter::FilterToken(m_tokenList->GetAt(pos)));
+		} while (pos < m_end && !TTokenFilter::FilterToken(*pos));
 
-		return GenericParserCursor(m_tokenList, pos, m_end);
+		return GenericParserCursor(pos, m_end);
 	}
 
 private:
-	const TokenList*	m_tokenList;
-	int					m_position;
-	int					m_end;
+	//const TokenList*	m_tokenList;
+	Iterator	m_current;
+	Iterator	m_end;
+	//int					m_position;
+	//int					m_end;
 };
 
 
@@ -305,7 +313,7 @@ public:
 		//return m_current;
 	}
 
-	const Token& GetCurrentValue() const
+	Token* GetCurrentValue() const
 	{
 		return m_current.GetCurrentValue();
 	}
@@ -315,12 +323,12 @@ public:
 		return m_start;
 	}
 
-	int GetStartPosition() const
+	Iterator GetStartPosition() const
 	{
 		return m_start.GetPosition();
 	}
 
-	int GetLastMatchEndPosition() const
+	Iterator GetLastMatchEndPosition() const
 	{
 		return m_last.GetPosition() + 1;	// 最後のマッチ位置の次
 	}
@@ -379,7 +387,7 @@ template<typename TTokenFilter = ParserCursorConditional::Always>
 class ParseLib
 {
 public:
-	using ValueT = Token;
+	using ValueT = Token*;
 
 	using ParserContext = GenericParserContext<GenericParserCursor<TTokenFilter>>;
 
@@ -397,10 +405,10 @@ public:
 	{
 		return [ch](ParserContext input)
 		{
-			auto& tok = input.GetCurrentValue();
-			if (tok.EqualChar(ch))
+			fl::Token* tok = input.GetCurrentValue();
+			if (tok->EqualChar(ch))
 				return ParserResult<ValueT>::Success(tok, input.GetStartPosition(), input.GetStartPosition() + 1, input.GetNext());
-			return ParserResult<ValueT>::Fail(input.GetCurrentCursor(), flString::Format("Unexpected token \"{0}\". expected \"{1}\"", tok.GetString(), ch));
+			return ParserResult<ValueT>::Fail(input.GetCurrentCursor(), flString::Format("Unexpected token \"{0}\". expected \"{1}\"", tok->GetString(), ch));
 		};
 	}
 
@@ -409,10 +417,10 @@ public:
 		String str = str_;
 		return [str](ParserContext input)
 		{
-			auto& tok = input.GetCurrentValue();
-			if (tok.EqualString(str.c_str(), str.GetLength()))
+			fl::Token* tok = input.GetCurrentValue();
+			if (tok->EqualString(str.c_str(), str.GetLength()))
 				return ParserResult<ValueT>::Success(tok, input.GetStartPosition(), input.GetStartPosition() + 1, input.GetNext());
-			return ParserResult<ValueT>::Fail(input.GetCurrentCursor(), flString::Format("Unexpected token \"{0}\". expected \"{1}\"", tok.GetString(), str));
+			return ParserResult<ValueT>::Fail(input.GetCurrentCursor(), flString::Format("Unexpected token \"{0}\". expected \"{1}\"", tok->GetString(), str));
 		};
 	}
 
@@ -420,10 +428,10 @@ public:
 	{
 		return [type](ParserContext input)
 		{
-			auto& tok = input.GetCurrentValue();
-			if (tok.GetTokenGroup() == type)
+			fl::Token* tok = input.GetCurrentValue();
+			if (tok->GetTokenGroup() == type)
 				return ParserResult<ValueT>::Success(tok, input.GetStartPosition(), input.GetStartPosition() + 1, input.GetNext());
-			return ParserResult<ValueT>::Fail(input.GetCurrentCursor(), flString::Format("Unexpected token group \"{0}\". expected \"{1}\"", (int)tok.GetTokenGroup(), (int)type));
+			return ParserResult<ValueT>::Fail(input.GetCurrentCursor(), flString::Format("Unexpected token group \"{0}\". expected \"{1}\"", (int)tok->GetTokenGroup(), (int)type));
 		};
 	}
 
@@ -496,6 +504,48 @@ public:
 		};
 	}
 
+	//// term までをマッチの範囲とし、
+	//// ターミネータを result に含まず、ターミネータを消費しない
+	//template<typename T>
+	//static Parser<List<T>> UntilPrev(const Parser<T>& term)
+	//{
+	//	return [term](ParserContext input)
+	//	{
+	//		//List<T> list;
+	//		//auto lastResultCursor = input.GetCurrentCursor();
+	//		//auto r = term(input);	// ParserResults
+
+	//		//while (r.IsFailed())
+	//		//{
+	//		//	list.Add(r.GetValue());
+	//		//	lastResult = r;
+	//		//	r = term(r.GetRemainder().Advance());
+	//		//}
+
+
+	//		List<T> list;
+	//		auto mathEnd = input.GetStartPosition();
+	//		auto lastCursor = input.GetCurrentCursor();
+
+	//		auto r = term(input);
+	//		auto lastResult = r;
+
+	//		while (r.IsFailed())
+	//		{
+	//			list.Add(r.GetValue());
+	//			lastResult = r;
+	//			mathEnd = rlastResult.GetMatchEnd();
+	//			lastCursor = lastResult.GetRemainder();
+
+	//			r = term(r.GetRemainder().Advance());
+	//		}
+
+	//		// TODO: ストリーム末尾までfailedだったらパース失敗
+
+	//		return ParserResult<List<T>>::Success(list, input.GetStartPosition(), lastResultCursor.GetLastMatchEndPosition(), lastCursor);
+	//	};
+	//}
+
 	// term までをマッチの範囲とし、
 	// ターミネータを result に含む
 	template<typename T>
@@ -537,7 +587,7 @@ public:
 	}
 
 
-	static bool FilterToken(const fl::Token& token)
+	static bool FilterToken(fl::Token* token)
 	{
 		return true;
 	}

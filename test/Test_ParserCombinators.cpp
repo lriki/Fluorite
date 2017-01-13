@@ -16,8 +16,8 @@ TEST_F(Test_ParserCombinators, Parse)
 		struct Decl
 		{
 			String		type;
-			int			begin;
-			int			end;
+			combinators::Iterator			begin;
+			combinators::Iterator			end;
 			List<Decl>	decls;
 		};
 
@@ -49,13 +49,13 @@ TEST_F(Test_ParserCombinators, Parse)
 			return input.Success(r1);
 		}
 
-		static bool FilterToken(const fl::Token& token)
+		static bool FilterToken(fl::Token* token)
 		{
 			return
-				token.EqualChar(';') || token.EqualChar('{') || token.EqualChar('}') ||
-				token.EqualString("LN_CLASS", 8) ||
-				token.EqualString("LN_METHOD", 9) ||
-				token.GetTokenGroup() == TokenGroup::Eof;	// TODO: これが無くてもいいようにしたい。今はこれがないと、Many中にEOFしたときOutOfRangeする
+				token->EqualChar(';') || token->EqualChar('{') || token->EqualChar('}') ||
+				token->EqualString("LN_CLASS", 8) ||
+				token->EqualString("LN_METHOD", 9) ||
+				token->GetTokenGroup() == TokenGroup::Eof;	// TODO: これが無くてもいいようにしたい。今はこれがないと、Many中にEOFしたときOutOfRangeする
 		}
 	};
 
@@ -89,16 +89,16 @@ TEST_F(Test_ParserCombinators, AcceptsThatChar)
 		auto result = TokenParser::TryParse(TokenParser::Parse_String, tokens);
 		ASSERT_EQ(true, result.IsSucceed());
 		ASSERT_EQ(100, result.GetValue());
-		ASSERT_EQ(0, result.GetMatchBegin());
-		ASSERT_EQ(1, result.GetMatchEnd());
+		ASSERT_EQ(0, result.GetMatchBegin() - tokens->begin());
+		ASSERT_EQ(1, result.GetMatchEnd() - tokens->begin());
 	}
 	{
 		DO_LEX("a a");	// ※ "aa" だと 1 つの Token になるので分割されるようにする
 		auto result = TokenParser::TryParse(TokenParser::Parse_String, tokens);
 		ASSERT_EQ(true, result.IsSucceed());
 		ASSERT_EQ(100, result.GetValue());
-		ASSERT_EQ(0, result.GetMatchBegin());
-		ASSERT_EQ(1, result.GetMatchEnd());		// 1つ目のトークンまでマッチ成功
+		ASSERT_EQ(0, result.GetMatchBegin() - tokens->begin());
+		ASSERT_EQ(1, result.GetMatchEnd() - tokens->begin());		// 1つ目のトークンまでマッチ成功
 	}
 	// <Test> 不一致
 	{

@@ -21,7 +21,7 @@ CppLexer::~CppLexer()
 }
 
 //------------------------------------------------------------------------------
-int CppLexer::ReadToken(const Range& buffer, TokenList* list)
+int CppLexer::ReadToken(const Range& buffer)
 {
 	int len;
 
@@ -96,14 +96,12 @@ int CppLexer::ReadToken(const Range& buffer, TokenList* list)
 }
 
 //------------------------------------------------------------------------------
-//
-//------------------------------------------------------------------------------
-void CppLexer::PollingToken(const Token& token)
+void CppLexer::PollingToken(Token* token)
 {
 	// 何もしていない。改行を探す。
 	if (m_seqPPDirective == PPDirectiveSeq::Idle)
 	{
-		if (token.GetTokenGroup() == TokenGroup::NewLine)
+		if (token->GetTokenGroup() == TokenGroup::NewLine)
 		{
 			m_seqPPDirective = PPDirectiveSeq::LineHead;		// 改行が見つかった。行頭状態へ
 		}
@@ -111,8 +109,8 @@ void CppLexer::PollingToken(const Token& token)
 	// 行頭にいる。# を探す。
 	else if (m_seqPPDirective == PPDirectiveSeq::LineHead)
 	{
-		if (token.GetTokenGroup() == TokenGroup::Operator &&
-			token.GetTokenType() == TT_CppOP_Sharp)
+		if (token->GetTokenGroup() == TokenGroup::Operator &&
+			token->GetTokenType() == TT_CppOP_Sharp)
 		{
 			m_seqPPDirective = PPDirectiveSeq::FoundSharp;	// "#" を見つけた
 		}
@@ -148,7 +146,7 @@ void CppLexer::PollingToken(const Token& token)
 	else if (m_seqPPDirective == PPDirectiveSeq::ReadingPPHeaderName ||
 			 m_seqPPDirective == PPDirectiveSeq::ReadingPPTokens)
 	{
-		if (token.GetTokenGroup() == TokenGroup::NewLine)
+		if (token->GetTokenGroup() == TokenGroup::NewLine)
 		{
 			m_seqPPDirective = PPDirectiveSeq::LineHead;		// 改行が見つかった。行頭状態へ
 		}

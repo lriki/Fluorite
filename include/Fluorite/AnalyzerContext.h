@@ -13,6 +13,19 @@ enum class InputFileCategory
 	Header,
 };
 
+class TokenStore
+{
+public:
+	TokenStore();
+	~TokenStore();	
+
+	void Reserve(int count);
+	Token* CreateToken();
+
+private:
+	List<Token*>	m_tokenStore;
+};
+
 /**
 	@brief	
 */
@@ -34,6 +47,7 @@ LN_INTERNAL_ACCESS:
 	ByteBuffer* GetCodeBuffer();
 	TokenList* GetTokenListInternal() { return &m_tokenList; }
 	void SetDiag(DiagnosticsItemSet* diag) { m_diag = diag; }
+	Token* CreateToken();
 
 private:
 	void ReadFile();
@@ -43,6 +57,7 @@ private:
 	PathNameA			m_filePath;
 	ByteBuffer			m_code;
 	bool				m_codeRead;
+	TokenStore			m_tokenStore;
 	TokenList			m_tokenList;
 	DiagnosticsItemSet*	m_diag;
 };

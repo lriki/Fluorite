@@ -33,7 +33,7 @@ static int g_alphaNumTypeTable[256] =
 //------------------------------------------------------------------------------
 AbstractLexer::AbstractLexer()
 	: m_inputBuffer(nullptr)
-	, m_tokenList(nullptr)
+	//, m_tokenList(nullptr)
 	, m_diag(nullptr)
 	, m_currentLineNumber(0)
 	, m_currentColumn(0)
@@ -61,14 +61,14 @@ ResultState AbstractLexer::Tokenize(const ByteBuffer* buffer, TokenList* outToke
 	assert(diag != nullptr);
 
 	m_inputBuffer = buffer;
-	m_tokenList = outTokenList;
+	//m_tokenList = outTokenList;
 	m_diag = diag;
 	m_currentLineNumber = 1;
 	m_currentColumn = 1;
 
-	// 最悪のパターンで容量確保
-	m_tokenList->Clear();
-	m_tokenList->Reserve(buffer->GetSize());
+	//// 最悪のパターンで容量確保
+	//m_tokenList->Clear();
+	//m_tokenList->Reserve(buffer->GetSize());
 
 	OnStart();
 
@@ -78,17 +78,17 @@ ResultState AbstractLexer::Tokenize(const ByteBuffer* buffer, TokenList* outToke
 	r.end = r.pos + (buffer->GetSize() / sizeof(char));
 	while (r.pos < r.end)
 	{
-		int len = ReadToken(r, m_tokenList);
+		int len = ReadToken(r);
 		if (len == 0) {
 			break;
 		}
 
-		Token& lastToken = m_tokenList->GetLast();
+		Token* lastToken = GetLastToken();
 		PollingToken(lastToken);
 
 		// トークンの開始位置をセット
-		lastToken.SetFirstLineNumber(m_currentLineNumber);
-		lastToken.SetFirstColumn(m_currentColumn);
+		lastToken->SetFirstLineNumber(m_currentLineNumber);
+		lastToken->SetFirstColumn(m_currentColumn);
 
 		// 行番号、列番号の計算。トークン内に改行があるかどうか、1文字ずつ確認する。
 		// また、次の解析開始位置まで r.pos を進める。
@@ -102,8 +102,8 @@ ResultState AbstractLexer::Tokenize(const ByteBuffer* buffer, TokenList* outToke
 				isNLLast = true;
 				r.pos += nlLen;
 
-				lastToken.SetLastLineNumber(m_currentLineNumber);
-				lastToken.SetLastColumn(m_currentColumn + nlLen - 1);
+				lastToken->SetLastLineNumber(m_currentLineNumber);
+				lastToken->SetLastColumn(m_currentColumn + nlLen - 1);
 
 				m_currentLineNumber++;
 				m_currentColumn = 1;
@@ -117,35 +117,44 @@ ResultState AbstractLexer::Tokenize(const ByteBuffer* buffer, TokenList* outToke
 		}
 		if (!isNLLast)
 		{
-			lastToken.SetLastLineNumber(m_currentLineNumber);
-			lastToken.SetLastColumn(m_currentColumn - 1);
+			lastToken->SetLastLineNumber(m_currentLineNumber);
+			lastToken->SetLastColumn(m_currentColumn - 1);
 		}
 	}
 
 	// 最後に EOF を入れておく
-	m_tokenList->Add(Token(m_inputFile, TokenGroup::Eof, 0, 0));
+	AddToken(TokenGroup::Eof, 0, 0);
 
 	return ResultState::Success;
 }
 
 //------------------------------------------------------------------------------
-void AbstractLexer::PollingToken(const Token& newToken)
+void AbstractLexer::PollingToken(Token* newToken)
 {
 }
 
 //------------------------------------------------------------------------------
 void AbstractLexer::AddToken(TokenGroup group, const char* bufBegin, const char* bufEnd, int tokenType)
 {
+	Token* token = m_inputFile->CreateToken();
+
 	const char* begin = (const char*)m_inputBuffer->GetConstData();
-	m_tokenList->Add(Token(m_inputFile, group, bufBegin - begin, bufEnd - begin, tokenType));
+	*token = Token(m_inputFile, group, bufBegin - begin, bufEnd - begin, tokenType);
 }
 
 //------------------------------------------------------------------------------
-bool AbstractLexer::EqualsString(const Token& token, const char* str, int length) const
+Token* AbstractLexer::GetLastToken()
 {
-	if (token.GetLength() != length) return false;
+	return m_inputFile->GetTokenListInternal()->GetLast();
+}
+
+//------------------------------------------------------------------------------
+bool AbstractLexer::EqualsString(Token* token, const char* str, int length) const
+{
+	// TODO: 普通に Token::EqualXXXX使っていいと思う
+	if (token->GetLength() != length) return false;
 	const char* begin = (const char*)m_inputBuffer->GetConstData();
-	return StringTraits::StrNCmp(begin + token.GetBeginLoc(), str, length) == 0;	// TODO: Case
+	return StringTraits::StrNCmp(begin + token->GetBeginLoc(), str, length) == 0;	// TODO: Case
 }
 
 //------------------------------------------------------------------------------

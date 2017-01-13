@@ -37,11 +37,12 @@ public:
 
 protected:
 	ResultState Tokenize(const ByteBuffer* buffer, TokenList* outTokenList, DiagnosticsItemSet* diag);
-	virtual int ReadToken(const Range& buffer, TokenList* list) = 0;
-	virtual void PollingToken(const Token& newToken);
+	virtual int ReadToken(const Range& buffer) = 0;
+	virtual void PollingToken(Token* newToken);
 
 	void AddToken(TokenGroup group, const char* bufBegin, const char* bufEnd, int tokenType = 0);
-	bool EqualsString(const Token& token, const char* str, int length) const;
+	Token* GetLastToken();
+	bool EqualsString(Token* token, const char* str, int length) const;
 	DiagnosticsItemSet* GetDiag() const { return m_diag; }
 
 	static AlphaNumTypeFlags GetAlphaNumType(int ch);
@@ -56,7 +57,7 @@ protected:
 private:
 	InputFile*			m_inputFile;
 	const ByteBuffer*	m_inputBuffer;
-	TokenList*			m_tokenList;
+	//TokenList*			m_tokenList;
 	DiagnosticsItemSet*	m_diag;
 	int					m_currentLineNumber;	// 0Å`
 	int					m_currentColumn;

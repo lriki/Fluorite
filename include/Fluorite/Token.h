@@ -76,7 +76,7 @@ private:
 	@brief	
 */
 class TokenList
-	: public List<Token>
+	: public List<Token*>
 {
 public:
 	TokenList() {}
@@ -104,6 +104,16 @@ public:
 	//	}
 	//	return sb.ToString();
 	//}
+
+	template <class TPred>
+	int IndexOf(int startIndex, int count, TPred pred) const
+	{
+		for (int i = startIndex; i < startIndex + count && i < GetCount(); i++)
+		{
+			if (pred(GetAt(i))) return i;
+		}
+		return -1;
+	}
 };
 
 } // namespace fl
