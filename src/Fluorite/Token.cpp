@@ -89,6 +89,7 @@ flString Token::GetString() const
 //------------------------------------------------------------------------------
 bool Token::EqualString(const char* str, int len) const
 {
+	len = (len < 0) ? strlen(str) : len;
 	if (GetLength() != len) return false;
 	return StringTraits::StrNCmp(GetBegin(), str, len) == 0;	// TODO: Case
 }
