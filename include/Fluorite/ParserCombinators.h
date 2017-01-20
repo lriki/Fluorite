@@ -172,15 +172,15 @@ public:
 
 private:
 	Option(const T& value)
-		: m_vale(value)
+		: m_value(value)
 		, m_empty(false)
 	{}
 	Option()
-		: m_vale()
+		: m_value()
 		, m_empty(true)
 	{}
 
-	T		m_vale;
+	T		m_value;
 	bool	m_empty;
 };
 
@@ -414,7 +414,7 @@ public:
 
 	static Parser<ValueT> TokenString(const char* str_)
 	{
-		String str = str_;
+		flString str = str_;
 		return [str](ParserContext input)
 		{
 			fl::Token* tok = input.GetCurrentValue();
@@ -495,7 +495,7 @@ public:
 	{
 		return [parser](ParserContext input)
 		{
-			auto r = parser.Call(input);
+			auto r = parser(input);
 			if (r.IsSucceed())
 			{
 				return ParserResult<Option<T>>::Success(Option<T>::Some(r.GetValue()), input.GetStartPosition(), r.GetMatchEnd(), r.GetRemainder());
@@ -586,6 +586,13 @@ public:
 		return result;
 	}
 
+	template<typename T>
+	static ParserResult<T> TryParse(ParserResult<T>(*parser)(ParserContext), Iterator begin, Iterator end)
+	{
+		ParserCursor input(begin, end);
+		ParserResult<T> result = parser(input.Cuing());
+		return result;
+	}
 
 	static bool FilterToken(fl::Token* token)
 	{

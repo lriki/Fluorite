@@ -49,6 +49,8 @@ public:
 	/** 文字が一致するか */
 	bool EqualChar(char ch) const;
 
+	/** 文字列が一致するか */
+	bool EqualGroupAndString(TokenGroup group, const char* str, int len = -1) const;
 
 LN_INTERNAL_ACCESS:
 	void SetFirstLineNumber(int lineNumber) { m_firstLineNumber = lineNumber; }

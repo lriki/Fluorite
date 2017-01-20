@@ -101,5 +101,12 @@ bool Token::EqualChar(char ch) const
 	return *GetBegin() == ch;	// TODO: Case
 }
 
+//------------------------------------------------------------------------------
+bool Token::EqualGroupAndString(TokenGroup group, const char* str, int len) const
+{
+	if (m_group != group) return false;
+	return EqualString(str, len);
+}
+
 } // namespace fl
 
